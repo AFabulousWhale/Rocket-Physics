@@ -1,0 +1,44 @@
+.SpawnerBase {
+    flex-grow: 1;
+    background-color: rgb(87, 87, 87);
+    width: 30%;
+    border-top-left-radius: 0;
+    border-top-right-radius: 33px;
+    border-bottom-right-radius: 33px;
+}
+
+.ObjectButton {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    background-color: rgb(255, 255, 255);
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    width: 100px;
+    height: 75px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.RowClass {
+    flex-grow: 0;
+    background-color: rgba(0, 0, 0, 0);
+    flex-direction: row;
+    width: auto;
+    height: auto;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
