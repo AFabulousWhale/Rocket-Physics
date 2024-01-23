@@ -12,4 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06fd510c5ca485441a04b12f3ae41c2a, type: 3}
   m_Name: BodyList
   m_EditorClassIdentifier: 
-  bodyList: []
+  bodyList:
+  - bodyName: Body1
+    prefab: {fileID: 1311679348443102, guid: 685f1477411e7a7459012651b2b9a113, type: 3}
+    dryMass: 0
+  - bodyName: Body2
+    prefab: {fileID: 1143071940661618, guid: be2642d581f74b3438801d68b029b628, type: 3}
+    dryMass: 0
+  - bodyName: Body3
+    prefab: {fileID: 1117197543984394, guid: f015bb414c2fa7047880ea267a67a7aa, type: 3}
+    dryMass: 0
+  - bodyName: Body4
+    prefab: {fileID: 1086579243765946, guid: 230f249ceebed69489e66ad5e99521a2, type: 3}
+    dryMass: 0

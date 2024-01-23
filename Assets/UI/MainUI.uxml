@@ -2,12 +2,12 @@
     <Style src="project://database/Assets/UI/ObjectUI.uss?fileID=7433441132597879392&amp;guid=8c6a523e7ba0cab4c81d9b41582f0c6a&amp;type=3#ObjectUI" />
     <ui:VisualElement name="ObjectSpawner" class="SpawnerBase" style="right: auto; width: 35%;">
         <ui:VisualElement name="Row" class="RowClass" style="flex-grow: 1; height: auto;">
-            <ui:Button text="Button" display-tooltip-when-elided="true" name="Button" class="ObjectButton" />
-            <ui:Button text="Button" display-tooltip-when-elided="true" name="Button" class="ObjectButton" />
+            <ui:Button text="Body1" display-tooltip-when-elided="true" name="Body1" class="ObjectButton" />
+            <ui:Button text="Body2" display-tooltip-when-elided="true" name="Body2" class="ObjectButton" />
         </ui:VisualElement>
         <ui:VisualElement name="Row" class="RowClass" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; height: auto;">
-            <ui:Button text="Button" display-tooltip-when-elided="true" name="Button" class="ObjectButton" />
-            <ui:Button text="Button" display-tooltip-when-elided="true" name="Button" class="ObjectButton" />
+            <ui:Button text="Body3" display-tooltip-when-elided="true" name="Body3" class="ObjectButton" />
+            <ui:Button text="Body4" display-tooltip-when-elided="true" name="Body4" class="ObjectButton" />
         </ui:VisualElement>
         <ui:VisualElement name="Row" class="RowClass" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; height: auto;">
             <ui:Button text="Button" display-tooltip-when-elided="true" name="Button" class="ObjectButton" />

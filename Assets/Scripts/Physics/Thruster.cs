@@ -6,7 +6,11 @@ public class Thruster : MonoBehaviour
 {
     Rigidbody rb;
     public float thrustAmount = 20f;
+
     GameObject fireParticle;
+
+    public float verticalInput;
+    public float horizontalInput;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -25,5 +29,16 @@ public class Thruster : MonoBehaviour
         {
             fireParticle.SetActive(false);
         }
+
+        Vector3 input = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+
+        verticalInput = input.y * 8;
+        verticalInput = Mathf.Clamp(verticalInput, -8, 8);
+
+        horizontalInput = input.x * -8;
+        horizontalInput = Mathf.Clamp(horizontalInput, -8, 8);
+
+
+        transform.eulerAngles = new Vector3(verticalInput, 0, horizontalInput);
     }
 }
