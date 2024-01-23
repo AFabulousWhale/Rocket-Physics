@@ -44,3 +44,9 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
+.text {
+    -unity-font-style: bold;
+    font-size: 51px;
+    -unity-text-align: upper-left;
+}

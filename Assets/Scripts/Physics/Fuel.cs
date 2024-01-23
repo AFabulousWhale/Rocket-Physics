@@ -4,15 +4,40 @@ using UnityEngine;
 
 public class Fuel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float currentFuelAmount;
+    public float startingFuel;
+    public float massPerL;
+
+    public float depletionRate;
+
+    public float wetMass;
+
+    float startWetMass;
+
+    Rigidbody rb;
+
+    private void Start()
     {
-        
+        wetMass = currentFuelAmount * massPerL;
+        rb = GetComponent<Rigidbody>();
+        rb.mass += wetMass;
+
+        startingFuel = currentFuelAmount;
+        startWetMass = wetMass;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        
+        if (Input.GetButton("Jump"))
+        {
+            UseFuel();
+        }
+    }
+
+    void UseFuel()
+    {
+        currentFuelAmount -= depletionRate / 10;
+        wetMass = startWetMass * (currentFuelAmount / 100);
+        rb.mass = wetMass;
     }
 }
