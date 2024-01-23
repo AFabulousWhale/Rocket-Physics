@@ -37,6 +37,7 @@ public class Fuel : MonoBehaviour
     void UseFuel()
     {
         currentFuelAmount -= depletionRate / 10;
+        currentFuelAmount = Mathf.Clamp(currentFuelAmount, 0, startingFuel);
         wetMass = startWetMass * (currentFuelAmount / 100);
         rb.mass = wetMass;
     }

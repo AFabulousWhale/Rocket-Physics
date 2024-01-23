@@ -9,12 +9,15 @@ public class Thruster : MonoBehaviour
     public float thrustAmount;
 
     GameObject fireParticle;
-    public TextMeshProUGUI heightText, velocityText;
+    public TextMeshProUGUI heightText, velocityText, fuelText;
 
     public float verticalInput;
     public float horizontalInput;
 
     public Fuel fuel;
+
+    Gravity grav = new();
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -25,14 +28,21 @@ public class Thruster : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(rb.velocity.y > 20)
+        if(rb.velocity.magnitude > 20)
         {
             fuel.depletionRate = 1;
         }
 
         if (Input.GetButton("Jump"))
         {
-            IsFlying();
+            if (fuel.currentFuelAmount > 0)
+            {
+                IsFlying();
+            }
+            else
+            {
+                fireParticle.SetActive(false);
+            }
         }
         else
         {
@@ -40,7 +50,8 @@ public class Thruster : MonoBehaviour
         }
 
         heightText.text = "Height:" + transform.position.y.ToString();
-        velocityText.text = "Velocity:" + rb.velocity.y.ToString();
+        velocityText.text = "Velocity:" + rb.velocity.magnitude.ToString();
+        fuelText.text = "Remaining Fuel:" + fuel.currentFuelAmount.ToString();
     }
 
     void IsFlying()
