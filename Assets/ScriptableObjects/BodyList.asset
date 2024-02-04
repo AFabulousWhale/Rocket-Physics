@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06fd510c5ca485441a04b12f3ae41c2a, type: 3}
   m_Name: BodyList
   m_EditorClassIdentifier: 
+  visualMat: {fileID: 2100000, guid: a0b0007a1ae5d844dafe4bba6d07e310, type: 2}
   bodyList:
   - bodyName: Body1
     prefab: {fileID: 1311679348443102, guid: 685f1477411e7a7459012651b2b9a113, type: 3}

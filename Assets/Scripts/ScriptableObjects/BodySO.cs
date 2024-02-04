@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Rocket Parts/Bodies")]
 public class BodySO : ScriptableObject
 {
+    public Material visualMat;
     public List<BodyData> bodyList;
 }
 
