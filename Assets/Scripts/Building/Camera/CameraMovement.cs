@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class CameraMovement : MonoBehaviour
 
     Camera mainCamera;
 
+    float zoomScale = 10;
+
     private void Start()
     {
         mainCamera = GetComponent<Camera>();
@@ -22,12 +25,29 @@ public class CameraMovement : MonoBehaviour
         //pressing right mouse = rotate screen
         //scrolling = zoom in/out
 
-        if(Input.GetMouseButtonDown(1))
+        Rotating();
+        Zooming();
+    }
+
+    /// <summary>
+    /// checks scroll wheel input to "zoom in and out"
+    /// </summary>
+    private void Zooming()
+    {
+        mainCamera.fieldOfView += Input.GetAxis("Mouse ScrollWheel") * -zoomScale;
+    }
+
+    /// <summary>
+    /// checks mouse input to rotate camera around centre object
+    /// </summary>
+    void Rotating()
+    {
+        if (Input.GetMouseButtonDown(1))
         {
             previousPos = GetMousePosition;
         }
 
-        if(Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1))
         {
             Vector3 direction = previousPos - GetMousePosition;
 
