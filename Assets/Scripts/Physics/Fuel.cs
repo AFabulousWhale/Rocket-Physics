@@ -12,6 +12,9 @@ public class Fuel : MonoBehaviour
 
     public float wetMass;
 
+    [SerializeField]
+    float dryMass;
+
     float startWetMass;
 
     Rigidbody rb;
@@ -20,7 +23,7 @@ public class Fuel : MonoBehaviour
     {
         wetMass = currentFuelAmount * massPerL;
         rb = GetComponent<Rigidbody>();
-        rb.mass += wetMass;
+        rb.mass += (wetMass + dryMass);
 
         startingFuel = currentFuelAmount;
         startWetMass = wetMass;
@@ -39,6 +42,6 @@ public class Fuel : MonoBehaviour
         currentFuelAmount -= depletionRate / 10;
         currentFuelAmount = Mathf.Clamp(currentFuelAmount, 0, startingFuel);
         wetMass = startWetMass * (currentFuelAmount / 100);
-        rb.mass = wetMass;
+        rb.mass = (wetMass + dryMass);
     }
 }
