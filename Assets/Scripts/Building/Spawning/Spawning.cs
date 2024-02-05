@@ -6,14 +6,14 @@ using UnityEngine;
 public static class Spawning
 {
     public static bool spawnedObject = false;
-    public static void SpawnObject(BodySO partToSpawn, int index)
+    public static void SpawnObject(MainRocketData partToSpawn, RocketMainSO rocketMain)
     {
         if (!spawnedObject)
         {
-            GameObject newPrefab = (GameObject)PrefabUtility.InstantiatePrefab(partToSpawn.bodyList[index].prefab);
+            GameObject newPrefab = (GameObject)PrefabUtility.InstantiatePrefab(partToSpawn.prefab);
 
             Visual visual = newPrefab.AddComponent<Visual>();
-            newPrefab.GetComponent<Renderer>().material = partToSpawn.visualMat;
+            newPrefab.GetComponent<Renderer>().material = rocketMain.visualMat;
             spawnedObject = true;
         }
     }

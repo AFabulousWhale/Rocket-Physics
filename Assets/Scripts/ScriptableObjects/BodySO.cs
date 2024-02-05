@@ -4,19 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Rocket Parts/Bodies")]
-public class BodySO : ScriptableObject
+public class BodySO : RocketMainSO
 {
-    public Material visualMat;
     public List<BodyData> bodyList;
 }
 
 [Serializable]
-public class BodyData
+public class BodyData : MainRocketData
 {
+    //more specific stuff to do with body
     [SerializeField]
-    public string bodyName;
-    [SerializeField]
-    public GameObject prefab;
-    [SerializeField]
-    public int dryMass;
+    public string test;
 }

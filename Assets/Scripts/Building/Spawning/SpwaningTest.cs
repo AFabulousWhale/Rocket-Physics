@@ -12,7 +12,7 @@ public class SpwaningTest : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.F1))
         {
-            Spawning.SpawnObject(objects, 1);
+            Spawning.SpawnObject(objects.bodyList[0], objects);
         }
     }
 }
