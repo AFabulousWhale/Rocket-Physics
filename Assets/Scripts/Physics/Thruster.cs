@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Thruster : MonoBehaviour
+public class Thruster : RocketMain
 {
     Rigidbody rb;
     public float thrustAmount;

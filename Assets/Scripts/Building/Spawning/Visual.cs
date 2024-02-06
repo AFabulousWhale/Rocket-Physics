@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,11 @@ public class Visual : MonoBehaviour
 
     [SerializeField]
     Collider[] colliders;
+    GameObject topSphere, bottomSphere;
+    RocketMain snappedScript;
+    bool isSnapTop;
+
+    public RocketPart part;
 
     void Awake()
     {
@@ -41,13 +47,43 @@ public class Visual : MonoBehaviour
             Spawning.spawnedObject = false;
             GetComponent<Renderer>().material = defaultMat;
             this.tag = snapTag;
+
+            RocketMain thisSnap = new();
+
+            switch (part)
+            {
+                case RocketPart.Body:
+                    thisSnap = this.gameObject.AddComponent<Engine>();
+                    break;
+                case RocketPart.Fuel:
+                    break;
+                case RocketPart.Thruster:
+                    break;
+            }
+
             if (targetTransform && isSnapping)
             {
-                targetTransform.tag = "Untagged";
+                if (isSnapTop)
+                {
+                    snappedScript.topSnap = false;
+                    snappedScript.topObject = this.gameObject;
+                    thisSnap.bottomObject = targetTransform.gameObject;
+                    thisSnap.bottomSnap = false;
+                }
+                else
+                {
+                    snappedScript.bottomSnap = false;
+                    snappedScript.bottomObject = this.gameObject;
+                    thisSnap.topObject = targetTransform.gameObject;
+                    thisSnap.topSnap = false;
+                }
+
+                if(snappedScript.topObject && snappedScript.bottomObject)
+                {
+                    targetTransform.tag = "Untagged";
+                }
             }
             Destroy(this);
-            //remove this script
-            //add part script
         }
         else
         {
@@ -75,23 +111,88 @@ public class Visual : MonoBehaviour
                 // Snap to the closest object
                 targetTransform = collider.transform;
                 targetCollider = targetTransform.GetComponent<Collider>();
-                SnapTo();
+                snappedScript = targetTransform.gameObject.GetComponent<RocketMain>();
+                GetClosestPoint();
                 break; // Snap to only the closest object
             }
             else
             {
                 isSnapping = false;
+                if (topSphere && bottomSphere)
+                {
+                    topSphere.SetActive(false);
+                    bottomSphere.SetActive(false);
+                }
+                if (snappedScript)
+                {
+                    if (!snappedScript.bottomObject)
+                    {
+                        snappedScript.bottomSnap = true;
+                    }
+                    if (!snappedScript.topObject)
+                    {
+                        snappedScript.topSnap = true;
+                    }
+                }
             }
         }
     }
 
-    void SnapTo()
+    private void GetClosestPoint()
     {
+        Vector3 targetTopPosition = targetTransform.position + Vector3.up * (targetTransform.localScale.y * 2f);
+        Vector3 targetBottomPosition = targetTransform.position - Vector3.up * (targetTransform.localScale.y * 2f);
+
+        topSphere = targetTransform.GetChild(0).gameObject;
+        bottomSphere = targetTransform.GetChild(1).gameObject;
+
+        float checkTopSphere = Vector3.Distance(transform.position, targetTopPosition);
+        float checkBottomSphere = Vector3.Distance(transform.position, targetBottomPosition);
+
+        if(checkTopSphere > checkBottomSphere) //closer to bottom
+        {
+            if (snappedScript.bottomSnap)
+            {
+                bottomSphere.SetActive(true);
+                topSphere.SetActive(false);
+                isSnapTop = false;
+                if (!snappedScript.topObject)
+                {
+                    snappedScript.topSnap = true;
+                }
+                SnapTo(targetBottomPosition);
+            }
+        }
+        else
+        {
+            if (snappedScript.topSnap)
+            {
+                topSphere.SetActive(true);
+                bottomSphere.SetActive(false);
+                isSnapTop = true;
+                if(!snappedScript.bottomObject)
+                {
+                    snappedScript.bottomSnap = true;
+                }
+                SnapTo(targetTopPosition);
+            }
+        }
+    }
+
+    void SnapTo(Vector3 posToSnapTo)
+    {
+        //bottom links to bottom of top sphere
+        //top links to top of bottom sphere
+
+        //gets closest point of target
+        //if nearest top point show top sphere
+        //if nearest bottom point show bottom sphere
+
+        //if slightly closer then snap to respective sphere
+
         isSnapping = true;
 
-        Vector3 targetTopPosition = targetTransform.position + Vector3.up * (targetTransform.localScale.y / 2f); //gets the top point of the target sphere
-
-        transform.position = targetTopPosition;
+        transform.position = posToSnapTo;
 
         Quaternion relativeRotation = Quaternion.FromToRotation(transform.up, targetCollider.transform.up);
         transform.rotation = relativeRotation * transform.rotation;

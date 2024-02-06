@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fuel : MonoBehaviour
+public class Fuel : RocketMain
 {
     public float currentFuelAmount;
     public float startingFuel;
