@@ -13,8 +13,13 @@ MonoBehaviour:
   m_Name: BodyList
   m_EditorClassIdentifier: 
   visualMat: {fileID: 2100000, guid: a0b0007a1ae5d844dafe4bba6d07e310, type: 2}
+  part: 0
   bodyList:
   - bodyName: 
-    prefab: {fileID: 1058322186698390, guid: 4afd2ac3e358bde44ba4370c411670fb, type: 3}
+    prefab: {fileID: 1311679348443102, guid: 685f1477411e7a7459012651b2b9a113, type: 3}
+    dryMass: 0
+    test: 
+  - bodyName: 
+    prefab: {fileID: 1143071940661618, guid: be2642d581f74b3438801d68b029b628, type: 3}
     dryMass: 0
     test: 
