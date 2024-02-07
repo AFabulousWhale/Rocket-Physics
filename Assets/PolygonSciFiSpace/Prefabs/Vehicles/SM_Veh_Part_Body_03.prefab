@@ -121,9 +121,9 @@ GameObject:
   - component: {fileID: 4960326487648867025}
   - component: {fileID: 6619556994127674164}
   - component: {fileID: 8634643984037353380}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TopSphere
-  m_TagString: Untagged
+  m_TagString: BuildingPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -227,6 +227,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapTag: BuildingPart
+  targetTransform: {fileID: 0}
+  targetRocketScript: {fileID: 0}
+  thisRocketScript: {fileID: 0}
+  colliders: []
 --- !u!1 &6142156653842694531
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,9 +244,9 @@ GameObject:
   - component: {fileID: 2350508465609024733}
   - component: {fileID: 3701383417694304655}
   - component: {fileID: 6185189577836145776}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BottomSphere
-  m_TagString: Untagged
+  m_TagString: BuildingPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -346,3 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapTag: BuildingPart
+  targetTransform: {fileID: 0}
+  targetRocketScript: {fileID: 0}
+  thisRocketScript: {fileID: 0}
+  colliders: []

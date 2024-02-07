@@ -8,7 +8,7 @@ public class Snapping : MonoBehaviour
     string topSnapName = "TopSphere";
     string bottomSnapName = "BottomSphere";
     int snapLayerInt = 1 << 3;
-    float distanceToPivot;
+    Vector3 distanceToPivot;
     float snapDistance = 1.5f;
 
     public Transform targetTransform;
@@ -105,9 +105,9 @@ public class Snapping : MonoBehaviour
         {
             if (collider.CompareTag(snapTag))
             {
-                targetTransform = collider.transform;
-                if (targetTransform.transform.parent != transform.parent) //wont snap to self
+                if (collider.transform.parent != transform.parent) //wont snap to self
                 {
+                    targetTransform = collider.transform;
                     targetRocketScript = targetTransform.transform.parent.GetComponent<RocketMain>();
                     // Snap to the closest object
                     TrySnap(targetTransform);
@@ -127,18 +127,20 @@ public class Snapping : MonoBehaviour
         Vector3 parentPosition = parent.transform.position;
         Vector3 parentOffset = ((transform.position - parentPosition) + offset);
         parentPosition += parentOffset;
-        parentPosition.y -= (distanceToPivot / 2);
+        parentPosition += distanceToPivot;
         parent.transform.position = parentPosition;
 
     }
 
-    float CalculatePivotToCenterDistance()
+    Vector3 CalculatePivotToCenterDistance()
     {
         // Get the mesh filter of the object
         Renderer rend = transform.parent.transform.GetComponent<Renderer>();
 
-        // Calculate the distance from the pivot to the center of the mesh
-        float distance = Vector3.Distance(transform.parent.transform.position, rend.bounds.center);
+        //// Calculate the distance from the pivot to the center of the mesh
+        //float distance = Vector3.Distance(transform.parent.transform.position, rend.bounds.center);
+
+        Vector3 distance = transform.parent.transform.position - rend.bounds.center;
 
         return distance;
     }
