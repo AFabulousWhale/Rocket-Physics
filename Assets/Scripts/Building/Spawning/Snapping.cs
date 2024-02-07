@@ -11,6 +11,8 @@ public class Snapping : MonoBehaviour
     Vector3 distanceToPivot;
     float snapDistance = 1.5f;
 
+    Renderer rend;
+
     public Transform targetTransform;
     [SerializeField]
     private RocketMain targetRocketScript, thisRocketScript;
@@ -24,6 +26,7 @@ public class Snapping : MonoBehaviour
     private void Start()
     {
         parentScript = transform.parent.GetComponent<Visual>();
+        rend = transform.parent.transform.GetComponent<Renderer>();
     }
 
     private void Update()
@@ -96,9 +99,6 @@ public class Snapping : MonoBehaviour
     {
         distanceToPivot = CalculatePivotToCenterDistance();
 
-        // Output the distance
-        Debug.Log($"Distance from pivot to center for {transform.gameObject.name}: {distanceToPivot}");
-
         colliders = Physics.OverlapSphere(transform.position, snapDistance, snapLayerInt);
 
         foreach (Collider collider in colliders)
@@ -126,23 +126,29 @@ public class Snapping : MonoBehaviour
         Transform parent = transform.parent;
         Vector3 parentPosition = parent.transform.position;
         Vector3 parentOffset = ((transform.position - parentPosition) + offset);
+
         parentPosition += parentOffset;
-        parentPosition += distanceToPivot;
+
+        Vector3 dist = (rend.bounds.max - parent.transform.position) - ((rend.bounds.max - rend.bounds.min) / 2);
+        parentPosition = new Vector3(parentPosition.x, parentPosition.y - (dist.y), parentPosition.z);
+        Debug.Log(dist);
+
         parent.transform.position = parentPosition;
 
     }
 
     Vector3 CalculatePivotToCenterDistance()
     {
-        // Get the mesh filter of the object
-        Renderer rend = transform.parent.transform.GetComponent<Renderer>();
-
         //// Calculate the distance from the pivot to the center of the mesh
         //float distance = Vector3.Distance(transform.parent.transform.position, rend.bounds.center);
 
-        Vector3 distance = transform.parent.transform.position - rend.bounds.center;
+        Vector3 parentPos = transform.parent.transform.position;
 
-        return distance;
+        float maxRend = rend.bounds.max.y;
+
+        parentPos.y -= maxRend;
+
+        return parentPos;
     }
 
     void OnDrawGizmosSelected()
