@@ -129,9 +129,13 @@ public class Snapping : MonoBehaviour
 
         parentPosition += parentOffset;
 
-        Vector3 dist = (rend.bounds.max - parent.transform.position) - ((rend.bounds.max - rend.bounds.min) / 2);
-        parentPosition = new Vector3(parentPosition.x, parentPosition.y - (dist.y), parentPosition.z);
-        Debug.Log(dist);
+        Vector3 distance = transform.position - parent.transform.position;
+        distance.y = distance.y - (distance.y / (Mathf.Sqrt(distance.y * distance.y)));
+
+        //// Replace "new Vector3(0,-0.5f,0)" and "- 0.5f" with the height of the sphere divided by 2
+        //// Distance between part origin and sphere origin which is the bottom of the sphere so we add half the size to get to the center and then add the other half for the full offset
+
+        parentPosition.y -= distance.y;
 
         parent.transform.position = parentPosition;
 
