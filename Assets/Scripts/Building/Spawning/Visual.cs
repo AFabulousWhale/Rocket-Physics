@@ -11,20 +11,25 @@ public class Visual : MonoBehaviour
     [SerializeField]
     Collider targetCollider;
 
+    public RocketMain mainRocketScript;
+
     public float snapDistance = 1f;
-    public LayerMask snapLayerMask = 1; // Set this to the layer where the objects can be snapped
     public string snapTag = "BuildingPart"; // Set this to the tag of objects that can be snapped
+    string snapBody = "BuildingBody";
 
     [SerializeField]
-    private bool isSnapping = false;
+    public bool finishedPlacing = false;
+    public bool isSnapping = false;
 
     Transform targetTransform;
 
     [SerializeField]
     Collider[] colliders;
     GameObject topSphere, bottomSphere;
-    RocketMain snappedScript;
-    bool isSnapTop;
+    GameObject currentBottomSphere, currentTopSphere;
+
+    Snapping bottomSnap, topSnap;
+    RocketMain targetRocketScript;
 
     public RocketPart part;
 
@@ -32,6 +37,12 @@ public class Visual : MonoBehaviour
     {
         defaultMat = GetComponent<Renderer>().material;
         myCollider = GetComponent<Collider>();
+
+        currentTopSphere = transform.GetChild(0).gameObject;
+        currentBottomSphere = transform.GetChild(1).gameObject;
+
+        topSnap = currentTopSphere.GetComponent<Snapping>();
+        bottomSnap = currentBottomSphere.GetComponent<Snapping>();
     }
 
     private void Update()
@@ -42,18 +53,18 @@ public class Visual : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !finishedPlacing)
         {
+            finishedPlacing = true;
             Spawning.spawnedObject = false;
             GetComponent<Renderer>().material = defaultMat;
-            this.tag = snapTag;
 
-            RocketMain thisSnap = new();
+            this.tag = snapBody;
 
             switch (part)
             {
                 case RocketPart.Body:
-                    thisSnap = this.gameObject.AddComponent<Engine>();
+                    mainRocketScript = this.gameObject.AddComponent<Engine>();
                     break;
                 case RocketPart.Fuel:
                     break;
@@ -61,147 +72,68 @@ public class Visual : MonoBehaviour
                     break;
             }
 
-            if (targetTransform && isSnapping)
-            {
-                if (isSnapTop)
-                {
-                    snappedScript.topSnap = false;
-                    snappedScript.topObject = this.gameObject;
-                    thisSnap.bottomObject = targetTransform.gameObject;
-                    thisSnap.bottomSnap = false;
-                }
-                else
-                {
-                    snappedScript.bottomSnap = false;
-                    snappedScript.bottomObject = this.gameObject;
-                    thisSnap.topObject = targetTransform.gameObject;
-                    thisSnap.topSnap = false;
-                }
-
-                if(snappedScript.topObject && snappedScript.bottomObject)
-                {
-                    targetTransform.tag = "Untagged";
-                }
-            }
             Destroy(this);
         }
-        else
+
+        if (!finishedPlacing && !isSnapping)
         {
+            Vector3 targetPos;
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 10f;
+            targetPos = Camera.main.ScreenToWorldPoint(mousePos);
+
+            // Follow the mouse
+            transform.position = targetPos;
+
             CheckSnap();
         }
+
     }
 
     void CheckSnap()
     {
-        Vector3 targetPos;
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = 10f;
-        targetPos = Camera.main.ScreenToWorldPoint(mousePos);
-
-        // Follow the mouse
-        transform.position = targetPos;
-
-        // Check for objects to snap to
-        colliders = Physics.OverlapSphere(transform.position, snapDistance, snapLayerMask);
+        colliders = Physics.OverlapSphere(transform.position, snapDistance);
 
         foreach (Collider collider in colliders)
         {
-            if (collider.CompareTag(snapTag))
+            if (collider.CompareTag(snapBody))
             {
                 // Snap to the closest object
                 targetTransform = collider.transform;
                 targetCollider = targetTransform.GetComponent<Collider>();
-                snappedScript = targetTransform.gameObject.GetComponent<RocketMain>();
+                targetRocketScript = targetTransform.gameObject.GetComponent<RocketMain>();
                 GetClosestPoint();
                 break; // Snap to only the closest object
-            }
-            else
-            {
-                isSnapping = false;
-                if (topSphere && bottomSphere)
-                {
-                    topSphere.SetActive(false);
-                    bottomSphere.SetActive(false);
-                }
-                if (snappedScript)
-                {
-                    if (!snappedScript.bottomObject)
-                    {
-                        snappedScript.bottomSnap = true;
-                    }
-                    if (!snappedScript.topObject)
-                    {
-                        snappedScript.topSnap = true;
-                    }
-                }
-            }
+            }         
         }
     }
 
     private void GetClosestPoint()
     {
-        Vector3 targetTopPosition = targetTransform.position + Vector3.up * (targetTransform.localScale.y * 2f);
-        Vector3 targetBottomPosition = targetTransform.position - Vector3.up * (targetTransform.localScale.y * 2f);
-
         topSphere = targetTransform.GetChild(0).gameObject;
         bottomSphere = targetTransform.GetChild(1).gameObject;
+
+        Vector3 targetTopPosition = targetTransform.position + Vector3.up * (targetTransform.localScale.y * 2f);
+        Vector3 targetBottomPosition = targetTransform.position - Vector3.up * (targetTransform.localScale.y * 2f);
 
         float checkTopSphere = Vector3.Distance(transform.position, targetTopPosition);
         float checkBottomSphere = Vector3.Distance(transform.position, targetBottomPosition);
 
-        if(checkTopSphere > checkBottomSphere) //closer to bottom
+        if (checkTopSphere > checkBottomSphere) //closer to bottom
         {
-            if (snappedScript.bottomSnap)
-            {
-                bottomSphere.SetActive(true);
-                topSphere.SetActive(false);
-                isSnapTop = false;
-                if (!snappedScript.topObject)
-                {
-                    snappedScript.topSnap = true;
-                }
-                SnapTo(targetBottomPosition);
-            }
+            bottomSphere.SetActive(true);
+            topSphere.SetActive(false);
+
+            currentTopSphere.SetActive(true);
+            currentBottomSphere.SetActive(false);
         }
         else
         {
-            if (snappedScript.topSnap)
-            {
-                topSphere.SetActive(true);
-                bottomSphere.SetActive(false);
-                isSnapTop = true;
-                if(!snappedScript.bottomObject)
-                {
-                    snappedScript.bottomSnap = true;
-                }
-                SnapTo(targetTopPosition);
-            }
+            bottomSphere.SetActive(false);
+            topSphere.SetActive(true);
+
+            currentBottomSphere.SetActive(true);
+            currentTopSphere.SetActive(false);
         }
-    }
-
-    void SnapTo(Vector3 posToSnapTo)
-    {
-        //bottom links to bottom of top sphere
-        //top links to top of bottom sphere
-
-        //gets closest point of target
-        //if nearest top point show top sphere
-        //if nearest bottom point show bottom sphere
-
-        //if slightly closer then snap to respective sphere
-
-        isSnapping = true;
-
-        transform.position = posToSnapTo;
-
-        Quaternion relativeRotation = Quaternion.FromToRotation(transform.up, targetCollider.transform.up);
-        transform.rotation = relativeRotation * transform.rotation;
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        // Draw a yellow sphere at the transform's position
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position, snapDistance);
     }
 }

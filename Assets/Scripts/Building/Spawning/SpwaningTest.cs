@@ -18,5 +18,9 @@ public class SpwaningTest : MonoBehaviour
         {
             Spawning.SpawnObject(objects.bodyList[1], objects, objects.part);
         }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            Spawning.SpawnObject(objects.bodyList[2], objects, objects.part);
+        }
     }
 }

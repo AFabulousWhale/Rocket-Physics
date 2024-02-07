@@ -120,9 +120,10 @@ GameObject:
   - component: {fileID: 1320564785629211220}
   - component: {fileID: 4882445137143278939}
   - component: {fileID: 7794087530430872971}
-  m_Layer: 0
+  - component: {fileID: 6045634860999554158}
+  m_Layer: 3
   m_Name: TopSphere
-  m_TagString: Untagged
+  m_TagString: BuildingPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,7 +137,7 @@ Transform:
   m_GameObject: {fileID: 483388356329660427}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.07, z: 0}
+  m_LocalPosition: {x: 0, y: 1.063, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -213,6 +214,23 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6045634860999554158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483388356329660427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22bb100c73d63864ab019de2b097a087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snapTag: BuildingPart
+  targetTransform: {fileID: 0}
+  targetRocketScript: {fileID: 0}
+  thisRocketScript: {fileID: 0}
+  colliders: []
 --- !u!1 &3152707417831891559
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,9 +243,10 @@ GameObject:
   - component: {fileID: 4415130962125055778}
   - component: {fileID: 7988535464506128625}
   - component: {fileID: 2142490095417368577}
-  m_Layer: 0
+  - component: {fileID: 8853078384484784806}
+  m_Layer: 3
   m_Name: BottomSphere
-  m_TagString: Untagged
+  m_TagString: BuildingPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -241,7 +260,7 @@ Transform:
   m_GameObject: {fileID: 3152707417831891559}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.49, z: 0}
+  m_LocalPosition: {x: 0, y: -1.063, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -318,3 +337,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8853078384484784806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3152707417831891559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22bb100c73d63864ab019de2b097a087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snapTag: BuildingPart
+  targetTransform: {fileID: 0}
+  targetRocketScript: {fileID: 0}
+  thisRocketScript: {fileID: 0}
+  colliders: []

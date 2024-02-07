@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RocketMain : MonoBehaviour
 {
-    public bool topSnap = true;
-    public bool bottomSnap = true;
+    public bool canSnapToTop = true;
+    public bool canSnapToBottom = true;
     public GameObject topObject, bottomObject;
 }

@@ -120,9 +120,10 @@ GameObject:
   - component: {fileID: 601610364560476410}
   - component: {fileID: 1679532829878972522}
   - component: {fileID: 1394605097177579195}
-  m_Layer: 0
+  - component: {fileID: 9159642206684571742}
+  m_Layer: 3
   m_Name: TopSphere
-  m_TagString: Untagged
+  m_TagString: BuildingPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -213,6 +214,23 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9159642206684571742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3098345076086438826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22bb100c73d63864ab019de2b097a087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snapTag: BuildingPart
+  targetTransform: {fileID: 0}
+  targetRocketScript: {fileID: 0}
+  thisRocketScript: {fileID: 0}
+  colliders: []
 --- !u!1 &8751455310504671231
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,9 +243,10 @@ GameObject:
   - component: {fileID: 78006675286983866}
   - component: {fileID: 255173023477489184}
   - component: {fileID: 7208914444731764625}
-  m_Layer: 0
+  - component: {fileID: 1368600217293804714}
+  m_Layer: 3
   m_Name: BottomSphere
-  m_TagString: Untagged
+  m_TagString: BuildingPart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -318,3 +337,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1368600217293804714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8751455310504671231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22bb100c73d63864ab019de2b097a087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snapTag: BuildingPart
+  targetTransform: {fileID: 0}
+  targetRocketScript: {fileID: 0}
+  thisRocketScript: {fileID: 0}
+  colliders: []
