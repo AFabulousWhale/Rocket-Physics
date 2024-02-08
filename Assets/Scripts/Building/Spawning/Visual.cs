@@ -21,6 +21,9 @@ public class Visual : MonoBehaviour
     public bool finishedPlacing = false;
     public bool isSnapping = false;
 
+    const string topSnapName = "TopSphere";
+    const string bottomSnapName = "BottomSphere";
+
     Transform targetTransform;
 
     [SerializeField]
@@ -47,6 +50,29 @@ public class Visual : MonoBehaviour
 
     private void Update()
     {
+        if(currentTopSphere.transform.childCount == 0 && transform.parent == null)
+        {
+            currentTopSphere.tag = snapTag;
+            currentTopSphere.gameObject.layer = 3;
+
+            if (topSnap == null)
+            {
+                topSnap = currentTopSphere.AddComponent<Snapping>();
+            }
+        }
+
+        if (currentBottomSphere.transform.childCount == 0 && transform.parent == null)
+        {
+            currentBottomSphere.tag = snapTag;
+            currentBottomSphere.gameObject.layer = 3;
+
+            if (bottomSnap == null)
+            {
+                bottomSnap = currentBottomSphere.AddComponent<Snapping>();
+            }
+        }
+
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Spawning.spawnedObject = false;
@@ -70,6 +96,16 @@ public class Visual : MonoBehaviour
                     break;
                 case RocketPart.Thruster:
                     break;
+            }
+
+            if(!RocketData.rocketData.rocketParent) //if there is no current rocket - add a new one
+            {
+                GameObject rParent = new("Rocket");
+                rParent.transform.position = transform.position;
+                RocketData.rocketData.rocketParent = rParent;
+                RocketData.rocketData.rocketPartParent = this.gameObject;
+                this.transform.parent = rParent.transform;
+                RocketData.rocketData.rocketPartsOrder.Add(this.gameObject);
             }
 
             Destroy(this);

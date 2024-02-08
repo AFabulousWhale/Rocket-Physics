@@ -36,44 +36,16 @@ public class Snapping : MonoBehaviour
             if (parentScript.finishedPlacing)
             {
                 thisRocketScript = parentScript.mainRocketScript;
-
-
                 if (targetTransform)
                 {
-                    if (targetTransform.gameObject.name == bottomSnapName)
-                    {
-                        targetRocketScript.canSnapToBottom = false;
-                        targetRocketScript.bottomObject = this.gameObject;
-                        targetTransform.tag = "Untagged";
-                        targetTransform.gameObject.layer = 0;
 
-                        this.tag = "Untagged";
-                        this.gameObject.layer = 0;
-                        thisRocketScript.topObject = targetTransform.gameObject;
-                        thisRocketScript.canSnapToTop = false;
+                    targetTransform.tag = "Untagged";
+                    targetTransform.gameObject.layer = 0;
 
-                        this.gameObject.SetActive(false);
-                        Destroy(this);
-                    }
-                    else if (targetTransform.gameObject.name == topSnapName)
-                    {
-                        targetRocketScript.canSnapToTop = false;
-                        targetRocketScript.topObject = this.gameObject;
-                        targetTransform.tag = "Untagged";
-                        targetTransform.gameObject.layer = 0;
+                    this.tag = "Untagged";
+                    this.gameObject.layer = 0;
 
-                        this.tag = "Untagged";
-                        this.gameObject.layer = 0;
-                        thisRocketScript.bottomObject = targetTransform.gameObject;
-                        thisRocketScript.canSnapToBottom = false;
-
-                        this.gameObject.SetActive(false);
-                        Destroy(this);
-                    }
-                    else
-                    {
-                        Debug.LogError("The name of the snap is incorrect");
-                    }
+                    transform.parent.parent = targetTransform;
                 }
             }
             else
@@ -130,10 +102,9 @@ public class Snapping : MonoBehaviour
         parentPosition += parentOffset;
 
         Vector3 distance = transform.position - parent.transform.position;
-        //distance.y = distance.y - (distance.y / (Mathf.Sqrt(distance.y * distance.y)));
-        distance.y = distance.y - (distance.y / (Mathf.Abs(distance.y)));
 
-        //// Replace "new Vector3(0,-0.5f,0)" and "- 0.5f" with the height of the sphere divided by 2
+        distance.y -= distance.y / Mathf.Abs(distance.y);
+
         //// Distance between part origin and sphere origin which is the bottom of the sphere so we add half the size to get to the center and then add the other half for the full offset
 
         parentPosition.y -= distance.y;
