@@ -6,7 +6,7 @@ public class RocketMain : MonoBehaviour
 {
     public bool canSnapToTop = true;
     public bool canSnapToBottom = true;
-    public GameObject topObject, bottomObject;
+    public GameObject topSnappedObject, bottomSnappedObject;
 
     bool onMouse = false;
 
@@ -25,15 +25,34 @@ public class RocketMain : MonoBehaviour
 
             if (Input.GetMouseButtonDown(1))
             {
+                CheckSpheresToReset();
+
                 transform.parent = null;
                 Destroy(outline);
                 gameObject.AddComponent<Visual>();
 
-
-
                 onMouse = true;
-                Destroy(gameObject.GetComponent<RocketMain>());
             }
+        }
+    }
+
+    void CheckSpheresToReset()
+    {
+        if(bottomSnappedObject != null) //if above another rocket part
+        {
+            ResetSnapping(bottomSnappedObject, 0); //resets the top sphere for the bottom part that it's deattached from
+            ResetSnapping(gameObject, 1);
+        }
+    }
+
+    void ResetSnapping(GameObject objectToReset, int child)
+    {
+        objectToReset.transform.GetChild(child).tag = "BuildingPart";
+        objectToReset.transform.GetChild(child).gameObject.layer = 3;
+
+        if (!objectToReset.transform.GetChild(child).gameObject.GetComponent<Snapping>())
+        {
+            objectToReset.transform.GetChild(child).gameObject.AddComponent<Snapping>();
         }
     }
 

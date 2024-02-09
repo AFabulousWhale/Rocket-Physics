@@ -5,47 +5,49 @@ using UnityEngine;
 public class Snapping : MonoBehaviour
 {
     public string snapTag = "BuildingPart"; // Set this to the tag of objects that can be snapped
-    string topSnapName = "TopSphere";
-    string bottomSnapName = "BottomSphere";
-    int snapLayerInt = 1 << 3;
+    int layerMask = 1 << 3;
     Vector3 distanceToPivot;
     float snapDistance = 1.5f;
 
     Renderer rend;
 
     public Transform targetTransform;
-    [SerializeField]
-    private RocketMain targetRocketScript, thisRocketScript;
 
-    Visual parentScript;
+    [SerializeField]
+    Visual parentScript, targetParentScript;
+
+    [SerializeField]
+    public Snapping targetScript;
+
+    GameObject parent;
+
+    public bool canSnap = true; //used to determine if already snapped to something else
 
     [SerializeField]
     Collider[] colliders;
-
-
     private void Start()
     {
         parentScript = transform.parent.GetComponent<Visual>();
         rend = transform.parent.transform.GetComponent<Renderer>();
+        parent = transform.parent.gameObject;
+        canSnap = true;
     }
 
     private void Update()
     {
         if (parentScript)
         {
-            if (parentScript.finishedPlacing)
+            if(parentScript.finishedPlacing)
             {
-                thisRocketScript = parentScript.mainRocketScript;
-                if (targetTransform)
+                if(targetScript != null && targetParentScript != null)
                 {
-
-                    targetTransform.tag = "Untagged";
-                    targetTransform.gameObject.layer = 0;
-
-                    this.tag = "Untagged";
-                    this.gameObject.layer = 0;
-
-                    transform.parent.parent = targetTransform;
+                    if (targetParentScript.finishedPlacing)
+                    {
+                        canSnap = false;
+                        targetScript.canSnap = false;
+                        targetScript.targetScript = this;
+                        targetScript.targetTransform = this.transform;
+                    }
                 }
             }
             else
@@ -60,6 +62,7 @@ public class Snapping : MonoBehaviour
                     targetPos = Camera.main.ScreenToWorldPoint(mousePos);
                     if (Vector3.Distance(targetPos, targetTransform.position) > (snapDistance * 2))
                     {
+                        Debug.Log("No more snapping");
                         parentScript.isSnapping = false;
                     }
                 }
@@ -69,25 +72,31 @@ public class Snapping : MonoBehaviour
 
     void CheckSnap()
     {
-        distanceToPivot = CalculatePivotToCenterDistance();
+        colliders = Physics.OverlapSphere(transform.position, snapDistance, layerMask);
 
-        colliders = Physics.OverlapSphere(transform.position, snapDistance, snapLayerInt);
-
-        foreach (Collider collider in colliders)
+        foreach (Collider hit in colliders)
         {
-            if (collider.CompareTag(snapTag))
+            if (hit.CompareTag(snapTag))
             {
-                if (collider.transform.parent != transform.parent) //wont snap to self
-                {
-                    targetTransform = collider.transform;
-                    targetRocketScript = targetTransform.transform.parent.GetComponent<RocketMain>();
-                    // Snap to the closest object
+                if(hit.transform.parent.gameObject != parent && hit.gameObject.name != gameObject.name && hit.GetComponent<Snapping>().canSnap)
+                { 
+                    targetTransform = hit.transform;
+                    targetScript = targetTransform.GetComponent<Snapping>();
+                    targetParentScript = targetTransform.transform.parent.GetComponent<Visual>();
                     TrySnap(targetTransform);
-                    break; // Snap to only the closest object
+                    break;
+                }
+                else
+                {
+                    targetTransform = null;
+                    targetScript = null;
+                    targetParentScript = null;
+                    canSnap = true;
                 }
             }
         }
     }
+
     void TrySnap(Transform attachmentNode)
     {
         parentScript.isSnapping = true;
@@ -95,13 +104,13 @@ public class Snapping : MonoBehaviour
         Vector3 offset = attachmentNode.position - transform.position;
         Quaternion rotation = Quaternion.FromToRotation(transform.up, attachmentNode.up);
 
-        Transform parent = transform.parent;
-        Vector3 parentPosition = parent.transform.position;
+        Transform parentTransform = transform.parent;
+        Vector3 parentPosition = parentTransform.position;
         Vector3 parentOffset = ((transform.position - parentPosition) + offset);
 
         parentPosition += parentOffset;
 
-        Vector3 distance = transform.position - parent.transform.position;
+        Vector3 distance = transform.position - parentTransform.position;
 
         distance.y -= distance.y / Mathf.Abs(distance.y);
 
@@ -109,28 +118,8 @@ public class Snapping : MonoBehaviour
 
         parentPosition.y -= distance.y;
 
-        parent.transform.position = parentPosition;
+        parentTransform.position = parentPosition;
 
-    }
-
-    Vector3 CalculatePivotToCenterDistance()
-    {
-        //// Calculate the distance from the pivot to the center of the mesh
-        //float distance = Vector3.Distance(transform.parent.transform.position, rend.bounds.center);
-
-        Vector3 parentPos = transform.parent.transform.position;
-
-        float maxRend = rend.bounds.max.y;
-
-        parentPos.y -= maxRend;
-
-        return parentPos;
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        // Draw a yellow sphere at the transform's position
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position, snapDistance);
+        Debug.Log($"{this.gameObject.name} snapped to {attachmentNode.gameObject.name}");
     }
 }
