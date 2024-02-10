@@ -47,6 +47,8 @@ public class Snapping : MonoBehaviour
                         targetScript.canSnap = false;
                         targetScript.targetScript = this;
                         targetScript.targetTransform = this.transform;
+
+                        targetParentScript = null;
                     }
                 }
             }

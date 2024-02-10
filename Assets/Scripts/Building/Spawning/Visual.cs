@@ -120,9 +120,9 @@ public class Visual : MonoBehaviour
 
                     transform.parent = null;
                     Destroy(outline);
-                    onMouse = true;
 
                     finishedPlacing = false;
+                    onMouse = true;
                 }
             }
         }
