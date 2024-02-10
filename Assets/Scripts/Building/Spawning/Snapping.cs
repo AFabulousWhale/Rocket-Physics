@@ -11,13 +11,19 @@ public class Snapping : MonoBehaviour
 
     Renderer rend;
 
-    public Transform targetTransform;
+    public Transform detectedTransform, connectedTransform;
 
     [SerializeField]
     Visual parentScript, targetParentScript;
 
     [SerializeField]
     public Snapping targetScript;
+
+    [SerializeField]
+    public List<GameObject> childrenConnectedParts = new();
+
+    [SerializeField]
+    public GameObject parentConnectedPart;
 
     GameObject parent;
 
@@ -35,44 +41,89 @@ public class Snapping : MonoBehaviour
 
     private void Update()
     {
+        if(parent.transform.childCount > 2) //more children than the two spheres
+        {
+            for (int i = 2; i < parent.transform.childCount; i++)
+            {
+                if (!childrenConnectedParts.Contains(parent.transform.GetChild(i).gameObject)) //doesn't already contain the child
+                {
+                    childrenConnectedParts.Add(parent.transform.GetChild(i).gameObject);
+                }
+            }
+        }
+        else
+        {
+            childrenConnectedParts.Clear();
+        }
+
+        if (childrenConnectedParts.Count > 0)
+        {
+            List<GameObject> tempList = new();
+            foreach (var item in childrenConnectedParts)
+            {
+                if (item.transform.childCount > 2) //more children than the two spheres
+                {
+                    for (int i = 2; i < item.transform.childCount; i++)
+                    {
+                        if (!childrenConnectedParts.Contains(item.transform.GetChild(i).gameObject)) //doesn't already contain the child
+                        {
+                            tempList.Add(item.transform.GetChild(i).gameObject);
+                        }
+                    }
+                }
+            }
+
+            foreach (var item in tempList)
+            {
+                childrenConnectedParts.Add(item);
+            }
+            tempList.Clear();
+        }
+
+        if(parent.transform.parent != null)
+        {
+            parentConnectedPart = parent.transform.parent.gameObject;
+        }
+
         if (parentScript)
         {
-            if(parentScript.finishedPlacing)
+            if(parentScript.hasPlaced)
             {
                 if(targetScript != null && targetParentScript != null)
                 {
-                    if (targetParentScript.finishedPlacing)
+                    canSnap = false;
+                    targetScript.canSnap = false;
+                    targetScript.targetScript = this;
+                    targetScript.connectedTransform = this.transform;
+
+                    connectedTransform = detectedTransform;
+                    targetScript.detectedTransform = null;
+                    detectedTransform = null;
+
+                    if(parentScript.targetTransform == null)
                     {
-                        canSnap = false;
-                        targetScript.canSnap = false;
-                        targetScript.targetScript = this;
-                        targetScript.targetTransform = this.transform;
+                        parentScript.targetTransform = connectedTransform.parent;
 
-                        if(parentScript.targetTransform == null)
-                        {
-                            parentScript.targetTransform = targetTransform.parent;
-
-                            transform.parent.parent = parentScript.targetTransform;
-                        }
-
-                        targetParentScript = null;
+                        transform.parent.parent = parentScript.targetTransform;
                     }
+
+                    targetParentScript = null;
                 }
             }
             else
             {
                 CheckSnap();
 
-                if (targetTransform)
+                if (detectedTransform)
                 {
                     Vector3 targetPos;
                     Vector3 mousePos = Input.mousePosition;
                     mousePos.z = 10f;
                     targetPos = Camera.main.ScreenToWorldPoint(mousePos);
-                    if (Vector3.Distance(targetPos, targetTransform.position) > (snapDistance * 2))
+                    if (Vector3.Distance(targetPos, detectedTransform.position) > (snapDistance * 2))
                     {
                         Debug.Log("No more snapping");
-                        parentScript.isSnapping = false;
+                        parentScript.inRadiusOfSphere = false;
                     }
                 }
             }
@@ -87,17 +138,17 @@ public class Snapping : MonoBehaviour
         {
             if (hit.CompareTag(snapTag))
             {
-                if(hit.transform.parent.gameObject != parent && hit.gameObject.name != gameObject.name && hit.GetComponent<Snapping>().canSnap)
+                if(hit.transform.parent.gameObject != parent && hit.gameObject.name != gameObject.name && hit.GetComponent<Snapping>().canSnap && !childrenConnectedParts.Contains(hit.transform.parent.gameObject) && hit.transform.parent != parentConnectedPart)
                 { 
-                    targetTransform = hit.transform;
-                    targetScript = targetTransform.GetComponent<Snapping>();
-                    targetParentScript = targetTransform.transform.parent.GetComponent<Visual>();
-                    TrySnap(targetTransform);
+                    detectedTransform = hit.transform;
+                    targetScript = detectedTransform.GetComponent<Snapping>();
+                    targetParentScript = detectedTransform.transform.parent.GetComponent<Visual>();
+                    TrySnap(detectedTransform, transform);
                     break;
                 }
                 else
                 {
-                    targetTransform = null;
+                    detectedTransform = null;
                     targetScript = null;
                     targetParentScript = null;
                     canSnap = true;
@@ -106,20 +157,20 @@ public class Snapping : MonoBehaviour
         }
     }
 
-    void TrySnap(Transform attachmentNode)
+    void TrySnap(Transform attachmentNode, Transform partToAttach)
     {
-        parentScript.isSnapping = true;
+        parentScript.inRadiusOfSphere = true;
         // Calculate the offset and rotation for snapping
-        Vector3 offset = attachmentNode.position - transform.position;
-        Quaternion rotation = Quaternion.FromToRotation(transform.up, attachmentNode.up);
+        Vector3 offset = attachmentNode.position - partToAttach.transform.position;
+        Quaternion rotation = Quaternion.FromToRotation(partToAttach.transform.up, attachmentNode.up);
 
-        Transform parentTransform = transform.parent;
+        Transform parentTransform = partToAttach.transform.parent;
         Vector3 parentPosition = parentTransform.position;
-        Vector3 parentOffset = ((transform.position - parentPosition) + offset);
+        Vector3 parentOffset = ((partToAttach.transform.position - parentPosition) + offset);
 
         parentPosition += parentOffset;
 
-        Vector3 distance = transform.position - parentTransform.position;
+        Vector3 distance = partToAttach.transform.position - parentTransform.position;
 
         distance.y -= distance.y / Mathf.Abs(distance.y);
 

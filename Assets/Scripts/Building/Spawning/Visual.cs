@@ -10,12 +10,12 @@ public class Visual : MonoBehaviour
     public RocketMain mainRocketScript;
 
     [SerializeField]
-    public bool finishedPlacing = false;
-    public bool isSnapping = false;
+    public bool hasPlaced = false;
+    public bool inRadiusOfSphere = false;
 
     GameObject topSphere, bottomSphere;
 
-    Snapping bottomSnap, topSnap;
+    public Snapping bottomSnap, topSnap;
     RocketMain targetRocketScript;
 
     public Transform targetTransform;
@@ -44,9 +44,9 @@ public class Visual : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if (Input.GetMouseButtonDown(0) && !finishedPlacing)
+        if (Input.GetMouseButtonDown(0) && !hasPlaced)
         {
-            finishedPlacing = true;
+            hasPlaced = true;
             Spawning.spawnedObject = false;
             GetComponent<Renderer>().material = defaultMat;
 
@@ -79,7 +79,7 @@ public class Visual : MonoBehaviour
             }
         }
 
-        if (!finishedPlacing && !isSnapping)
+        if (!hasPlaced && !inRadiusOfSphere)
         {
             Vector3 targetPos;
             Vector3 mousePos = Input.mousePosition;
@@ -93,7 +93,7 @@ public class Visual : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if(finishedPlacing)
+        if(hasPlaced)
         {
             if (!onMouse)
             {
@@ -106,22 +106,53 @@ public class Visual : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(1))
                 {
-                    if (!topSnap.canSnap)
+                    hasPlaced = false;
+
+                    if(topSnap.connectedTransform != null)
                     {
-                        ResetSnapping(topSnap);
-                        ResetSnapping(topSnap.targetScript);
+                        topSnap.detectedTransform = topSnap.connectedTransform;
                     }
 
-                    if(!bottomSnap.canSnap)
+                    if(bottomSnap.connectedTransform != null)
                     {
-                        ResetSnapping(bottomSnap);
-                        ResetSnapping(bottomSnap.targetScript);
+                        bottomSnap.detectedTransform = bottomSnap.connectedTransform;
                     }
 
+                    //get parent
+                    //check which spheres are connected by testing connected parts gameobject
+                    //if spheres are connected - reset snapping and clear them
+                    //clear all children of parent
+                    //clear parent of current selected child (this script)
+
+                    if(transform.parent) //if has a parent
+                    {
+                        Visual pVisual = transform.parent.GetComponent<Visual>();
+                        if (pVisual) //if parent is a rocket part
+                        {
+                            if(topSnap.connectedTransform == transform.parent.GetChild(1)) //top sphere connected to other bottom sphere
+                            {
+                                ResetSnapping(topSnap);
+                                ResetSnapping(pVisual.bottomSnap);
+                            }
+
+                            if(bottomSnap.connectedTransform == transform.parent.GetChild(0)) //bottom sphere connected to other top sphere
+                            {
+                                ResetSnapping(bottomSnap);
+                                ResetSnapping(pVisual.topSnap);
+                            }
+
+                            pVisual.bottomSnap.childrenConnectedParts.Clear();
+                            pVisual.topSnap.childrenConnectedParts.Clear();
+
+                            topSnap.parentConnectedPart = null;
+                            bottomSnap.parentConnectedPart = null;
+                            targetTransform = null;
+                        }
+                    }
                     transform.parent = null;
                     Destroy(outline);
 
-                    finishedPlacing = false;
+                    hasPlaced = false;
                     onMouse = true;
                 }
             }
@@ -135,7 +166,7 @@ public class Visual : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if(finishedPlacing)
+        if(hasPlaced)
         {
             Destroy(outline);
             if (onMouse)
