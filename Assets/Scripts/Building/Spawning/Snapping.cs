@@ -48,6 +48,13 @@ public class Snapping : MonoBehaviour
                         targetScript.targetScript = this;
                         targetScript.targetTransform = this.transform;
 
+                        if(parentScript.targetTransform == null)
+                        {
+                            parentScript.targetTransform = targetTransform.parent;
+
+                            transform.parent.parent = parentScript.targetTransform;
+                        }
+
                         targetParentScript = null;
                     }
                 }

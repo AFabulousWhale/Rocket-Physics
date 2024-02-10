@@ -18,6 +18,8 @@ public class Visual : MonoBehaviour
     Snapping bottomSnap, topSnap;
     RocketMain targetRocketScript;
 
+    public Transform targetTransform;
+
     public RocketPart part;
 
     Outline outline;
@@ -66,17 +68,15 @@ public class Visual : MonoBehaviour
             //    mainRocketScript = GetComponent<RocketMain>();
             //}
 
-            //if(!RocketData.rocketData.rocketParent) //if there is no current rocket - add a new one
-            //{
-            //    GameObject rParent = new("Rocket");
-            //    rParent.transform.position = transform.position;
-            //    RocketData.rocketData.rocketParent = rParent;
-            //    RocketData.rocketData.rocketPartParent = this.gameObject;
-            //    this.transform.parent = rParent.transform;
-            //    RocketData.rocketData.rocketPartsOrder.Add(this.gameObject);
-            //}
-
-            //transform.parent = targetTransform;
+            if (!RocketData.rocketData.rocketParent) //if there is no current rocket - add a new one
+            {
+                GameObject rParent = new("Rocket");
+                rParent.transform.position = transform.position;
+                RocketData.rocketData.rocketParent = rParent;
+                RocketData.rocketData.rocketPartParent = this.gameObject;
+                this.transform.parent = rParent.transform;
+                RocketData.rocketData.rocketPartsOrder.Add(this.gameObject);
+            }
         }
 
         if (!finishedPlacing && !isSnapping)
