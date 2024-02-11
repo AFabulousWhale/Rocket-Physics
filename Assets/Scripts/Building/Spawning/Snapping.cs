@@ -148,13 +148,6 @@ public class Snapping : MonoBehaviour
                     TrySnap(detectedTransform, transform, distToChild);
                     break;
                 }
-                else //can't find target anymore
-                {
-                    detectedTransform = null;
-                    targetScript = null;
-                    targetParentScript = null;
-                    childSnap = false;
-                }
             }
         }
     }
