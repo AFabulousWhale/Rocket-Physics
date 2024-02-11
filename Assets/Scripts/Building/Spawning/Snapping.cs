@@ -31,8 +31,6 @@ public class Snapping : MonoBehaviour
     [SerializeField]
     Collider[] colliders;
 
-    float distToChild;
-    bool childSnap;
     private void Start()
     {
         parentScript = transform.parent.GetComponent<Visual>();
@@ -145,8 +143,17 @@ public class Snapping : MonoBehaviour
                     detectedTransform = hit.transform;
                     targetScript = detectedTransform.GetComponent<Snapping>();
                     targetParentScript = detectedTransform.transform.parent.GetComponent<Visual>();
-                    TrySnap(detectedTransform, transform, distToChild);
+                    TrySnap(detectedTransform, transform, 0);
                     break;
+                }
+                else //can't find target anymore
+                {
+                    if (hit.gameObject != connectedTransform) //unless it's already connected
+                    {
+                        detectedTransform = null;
+                        targetScript = null;
+                        targetParentScript = null;
+                    }
                 }
             }
         }
