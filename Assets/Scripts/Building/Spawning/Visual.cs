@@ -13,7 +13,7 @@ public class Visual : MonoBehaviour
     public bool hasPlaced = false;
     public bool inRadiusOfSphere = false;
 
-    GameObject topSphere, bottomSphere;
+    public GameObject topSphere, bottomSphere;
 
     public Snapping bottomSnap, topSnap;
     RocketMain targetRocketScript;
@@ -124,21 +124,25 @@ public class Visual : MonoBehaviour
                     //clear all children of parent
                     //clear parent of current selected child (this script)
 
-                    if(transform.parent) //if has a parent
+                    if(transform.parent != null) //if has a parent
                     {
                         Visual pVisual = transform.parent.GetComponent<Visual>();
                         if (pVisual) //if parent is a rocket part
                         {
                             if(topSnap.connectedTransform == transform.parent.GetChild(1)) //top sphere connected to other bottom sphere
                             {
+                                Debug.Log("Reest");
                                 ResetSnapping(topSnap);
                                 ResetSnapping(pVisual.bottomSnap);
+                                topSnap.connectedTransform = null;
                             }
 
                             if(bottomSnap.connectedTransform == transform.parent.GetChild(0)) //bottom sphere connected to other top sphere
                             {
+                                Debug.Log("asdawasd");
                                 ResetSnapping(bottomSnap);
                                 ResetSnapping(pVisual.topSnap);
+                                bottomSnap.connectedTransform = null;
                             }
 
                             pVisual.bottomSnap.childrenConnectedParts.Clear();
@@ -149,6 +153,7 @@ public class Visual : MonoBehaviour
                             targetTransform = null;
                         }
                     }
+
                     transform.parent = null;
                     Destroy(outline);
 

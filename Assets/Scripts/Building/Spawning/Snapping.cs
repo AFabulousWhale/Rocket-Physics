@@ -6,7 +6,6 @@ public class Snapping : MonoBehaviour
 {
     public string snapTag = "BuildingPart"; // Set this to the tag of objects that can be snapped
     int layerMask = 1 << 3;
-    Vector3 distanceToPivot;
     float snapDistance = 1.5f;
 
     Renderer rend;
@@ -31,6 +30,9 @@ public class Snapping : MonoBehaviour
 
     [SerializeField]
     Collider[] colliders;
+
+    float distToChild;
+    bool childSnap;
     private void Start()
     {
         parentScript = transform.parent.GetComponent<Visual>();
@@ -91,7 +93,6 @@ public class Snapping : MonoBehaviour
             {
                 if(targetScript != null && targetParentScript != null)
                 {
-                    canSnap = false;
                     targetScript.canSnap = false;
                     targetScript.targetScript = this;
                     targetScript.connectedTransform = this.transform;
@@ -110,9 +111,9 @@ public class Snapping : MonoBehaviour
                     targetParentScript = null;
                 }
             }
-            else
+            else //checks radius whilst sphere isn't placed (following mouse)
             {
-                CheckSnap();
+                CheckSnap(gameObject);
 
                 if (detectedTransform)
                 {
@@ -120,9 +121,10 @@ public class Snapping : MonoBehaviour
                     Vector3 mousePos = Input.mousePosition;
                     mousePos.z = 10f;
                     targetPos = Camera.main.ScreenToWorldPoint(mousePos);
-                    if (Vector3.Distance(targetPos, detectedTransform.position) > (snapDistance * 2))
+                    if (Vector3.Distance(targetPos, detectedTransform.position) > (snapDistance * 2)) //mouse out of radius of sphere
                     {
                         Debug.Log("No more snapping");
+                        canSnap = true;
                         parentScript.inRadiusOfSphere = false;
                     }
                 }
@@ -130,7 +132,7 @@ public class Snapping : MonoBehaviour
         }
     }
 
-    void CheckSnap()
+    void CheckSnap(GameObject objectToCheckSnap)
     {
         colliders = Physics.OverlapSphere(transform.position, snapDistance, layerMask);
 
@@ -143,21 +145,21 @@ public class Snapping : MonoBehaviour
                     detectedTransform = hit.transform;
                     targetScript = detectedTransform.GetComponent<Snapping>();
                     targetParentScript = detectedTransform.transform.parent.GetComponent<Visual>();
-                    TrySnap(detectedTransform, transform);
+                    TrySnap(detectedTransform, transform, distToChild);
                     break;
                 }
-                else
+                else //can't find target anymore
                 {
                     detectedTransform = null;
                     targetScript = null;
                     targetParentScript = null;
-                    canSnap = true;
+                    childSnap = false;
                 }
             }
         }
     }
 
-    void TrySnap(Transform attachmentNode, Transform partToAttach)
+    void TrySnap(Transform attachmentNode, Transform partToAttach, float yOffset)
     {
         parentScript.inRadiusOfSphere = true;
         // Calculate the offset and rotation for snapping
@@ -178,8 +180,11 @@ public class Snapping : MonoBehaviour
 
         parentPosition.y -= distance.y;
 
+        parentPosition.y -= yOffset;
+
         parentTransform.position = parentPosition;
 
         Debug.Log($"{this.gameObject.name} snapped to {attachmentNode.gameObject.name}");
+        canSnap = false;
     }
 }
