@@ -38,7 +38,7 @@ public class Visual : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !hasPlaced)
         {
             Spawning.spawnedObject = false;
             Destroy(this.gameObject);
@@ -131,7 +131,6 @@ public class Visual : MonoBehaviour
                         {
                             if(topSnap.connectedTransform == transform.parent.GetChild(1)) //top sphere connected to other bottom sphere
                             {
-                                Debug.Log("Reest");
                                 ResetSnapping(topSnap);
                                 ResetSnapping(pVisual.bottomSnap);
                                 topSnap.connectedTransform = null;
@@ -139,7 +138,6 @@ public class Visual : MonoBehaviour
 
                             if(bottomSnap.connectedTransform == transform.parent.GetChild(0)) //bottom sphere connected to other top sphere
                             {
-                                Debug.Log("asdawasd");
                                 ResetSnapping(bottomSnap);
                                 ResetSnapping(pVisual.topSnap);
                                 bottomSnap.connectedTransform = null;

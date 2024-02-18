@@ -143,7 +143,36 @@ public class Snapping : MonoBehaviour
                     detectedTransform = hit.transform;
                     targetScript = detectedTransform.GetComponent<Snapping>();
                     targetParentScript = detectedTransform.transform.parent.GetComponent<Visual>();
-                    TrySnap(detectedTransform, transform, 0);
+                    if (canSnap)
+                    {
+                        TrySnap(detectedTransform, transform, 0);
+                    }
+
+                    if (childrenConnectedParts.Count > 0 && !canSnap) //if has any children
+                    {
+                        Transform connectedTransform = childrenConnectedParts[childrenConnectedParts.Count - 1].transform;
+
+                        foreach (Transform child in connectedTransform)
+                        {
+                            if(child.name == gameObject.name) //if names are the same
+                            {
+                                float totalDistance = 0;
+
+                                foreach (var item in childrenConnectedParts)
+                                {
+                                    Renderer thisRend = item.GetComponent<Renderer>();
+                                    Vector3 thisDistance = thisRend.bounds.max - thisRend.bounds.min;
+
+                                    totalDistance += thisDistance.y;
+                                }
+
+                                TrySnap(detectedTransform, child, totalDistance);
+                            }
+                        }
+                        //find sphere with same name in last child
+                        //that will be the transform
+                        //offset rest of bodies
+                    }
                     break;
                 }
                 else //can't find target anymore
@@ -180,7 +209,12 @@ public class Snapping : MonoBehaviour
 
         parentPosition.y -= distance.y;
 
-        parentPosition.y -= yOffset;
+        if (yOffset > 0)
+        {
+            Vector3 thisParentPos = parent.transform.position;
+            thisParentPos.y -= yOffset / Mathf.Abs(yOffset);
+        }
+
 
         parentTransform.position = parentPosition;
 
