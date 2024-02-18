@@ -16,7 +16,7 @@ public class Calculations : MonoBehaviour
         //Debug.Log("Velocity: " + GetVelocity());
         //Debug.Log("Boost Phase: " + GetBoostPhaseDistance());
         //Debug.Log("Coast Phase: " + GetCoastPhaseDistance());
-
+        
         Debug.Log("Altitude: " + GetTotalAltitude());
     }
 
@@ -32,12 +32,20 @@ public class Calculations : MonoBehaviour
 
     float GetThrust()
     {
-        return 9; //set value for now
+        float thrust = 0;
+        foreach (var item in RocketData.rocketData.rocketPartsOrder)
+        {
+            if (item.GetComponent<Thruster>())
+            {
+                thrust += item.GetComponent<Thruster>().GetThrust();
+            }
+        }
+        return thrust;
     }
 
     float GetBurnTime()
     {
-        return GetImpulse() / GetThrust();
+        return GetFuel() / GetThrust();
     }
 
     float GetQ()
@@ -55,18 +63,17 @@ public class Calculations : MonoBehaviour
         return GetQ() * (1- Mathf.Exp(-GetX() * GetBurnTime())) / (1 + Mathf.Exp(-GetX() * GetBurnTime()));
     }
 
-    float GetImpulse()
+    float GetFuel()
     {
-        float thrust = 6;
+        float fuel = 0;
         foreach (var item in RocketData.rocketData.rocketPartsOrder)
         {
-            if (item.GetComponent<Thruster>())
+            if (item.GetComponent<Fuel>())
             {
-                thrust += item.GetComponent<Thruster>().GetThrust();
+                fuel += item.GetComponent<Fuel>().GetFuel();
             }
         }
-        Debug.Log(thrust);
-        return thrust;
+        return fuel;
     }
 
     float GetWindResistance()
@@ -91,7 +98,13 @@ public class Calculations : MonoBehaviour
 
     float GetTotalAltitude()
     {
+        if((GetBoostPhaseDistance() * 3.3f) + (GetCoastPhaseDistance() * 3.3f) <= 0)
+        {
+            return 0;
+        }
+
         return (GetBoostPhaseDistance() * 3.3f) + (GetCoastPhaseDistance() * 3.3f);
+
     }
 
     float GetBoostPhaseDistance()

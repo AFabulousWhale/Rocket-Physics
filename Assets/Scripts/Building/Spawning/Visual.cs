@@ -37,6 +37,7 @@ public class Visual : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && !hasPlaced)
         {
             Spawning.spawnedObject = false;
+            RocketData.rocketData.rocketPartsOrder.Remove(gameObject);
             Destroy(this.gameObject);
         }
 

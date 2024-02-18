@@ -4,44 +4,17 @@ using UnityEngine;
 
 public class Fuel : RocketMain
 {
-    public float currentFuelAmount;
-    public float startingFuel;
-    public float massPerL;
-
-    public float depletionRate;
-
     public float wetMass;
+    public float fuelAmount;
 
-    [SerializeField]
-    float dryMass;
-
-    float startWetMass;
-
-    Rigidbody rb;
-
-    private void Start()
+    public override void SetMass()
     {
-        wetMass = currentFuelAmount * massPerL;
-        rb = GetComponent<Rigidbody>();
-        rb.mass += (wetMass + dryMass);
-
-        startingFuel = currentFuelAmount;
-        startWetMass = wetMass;
+        mass += wetMass;
+        rb.mass = mass * 100;
     }
 
-    private void FixedUpdate()
+    public float GetFuel()
     {
-        if (Input.GetButton("Jump"))
-        {
-            UseFuel();
-        }
-    }
-
-    void UseFuel()
-    {
-        currentFuelAmount -= depletionRate / 10;
-        currentFuelAmount = Mathf.Clamp(currentFuelAmount, 0, startingFuel);
-        wetMass = startWetMass * (currentFuelAmount / 100);
-        rb.mass = (wetMass + dryMass);
+        return fuelAmount;
     }
 }

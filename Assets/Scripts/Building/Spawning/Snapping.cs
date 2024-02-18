@@ -152,31 +152,6 @@ public class Snapping : MonoBehaviour
                         TrySnap(detectedTransform, transform, 0);
                     }
 
-                    if (childrenConnectedParts.Count > 0 && !canSnap) //if has any children
-                    {
-                        Transform connectedTransform = childrenConnectedParts[childrenConnectedParts.Count - 1].transform;
-
-                        foreach (Transform child in connectedTransform)
-                        {
-                            if(child.name == gameObject.name) //if names are the same
-                            {
-                                float totalDistance = 0;
-
-                                foreach (var item in childrenConnectedParts)
-                                {
-                                    Renderer thisRend = item.GetComponent<Renderer>();
-                                    Vector3 thisDistance = thisRend.bounds.max - thisRend.bounds.min;
-
-                                    totalDistance += thisDistance.y;
-                                }
-
-                                TrySnap(detectedTransform, child, totalDistance);
-                            }
-                        }
-                        //find sphere with same name in last child
-                        //that will be the transform
-                        //offset rest of bodies
-                    }
                     break;
                 }
                 else //can't find target anymore
@@ -212,13 +187,6 @@ public class Snapping : MonoBehaviour
         //// Distance between part origin and sphere origin which is the bottom of the sphere so we add half the size to get to the center and then add the other half for the full offset
 
         parentPosition.y -= distance.y;
-
-        if (yOffset > 0)
-        {
-            Vector3 thisParentPos = parent.transform.position;
-            thisParentPos.y -= yOffset / Mathf.Abs(yOffset);
-        }
-
 
         parentTransform.position = parentPosition;
 

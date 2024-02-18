@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7dab643200c565428d5a2f97e12c9e9, type: 3}
-  m_Name: ThrusterList
+  m_Script: {fileID: 11500000, guid: 475a5a2cced05514f8e00d795c0cd9a3, type: 3}
+  m_Name: FuelList
   m_EditorClassIdentifier: 
   visualMat: {fileID: 2100000, guid: a0b0007a1ae5d844dafe4bba6d07e310, type: 2}
-  part: 2
-  thrusterList:
-  - bodyName: Thruster 1
-    prefab: {fileID: 1648359190015720, guid: b18b9904b4ca7754da3bb057d2303945, type: 3}
-    dryMass: 0.054
-    thrustAmount: 10
+  fuelList:
+  - bodyName: Fuel Tank1
+    prefab: {fileID: 1223295464465720, guid: 5a2e9f97140942b47a2028f0dde56f21, type: 3}
+    dryMass: 0.042
+    fuelAmount: 50
+    wetMass: 0.08

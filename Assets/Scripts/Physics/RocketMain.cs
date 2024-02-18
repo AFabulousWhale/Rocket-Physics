@@ -15,11 +15,11 @@ public class RocketMain : MonoBehaviour
 
     public virtual void SetMass()
     {
-        rb.mass = mass;
+        rb.mass = mass * 100;
     }
 
     public float GetMass()
     {
-        return rb.mass;
+        return mass;
     }
 }
