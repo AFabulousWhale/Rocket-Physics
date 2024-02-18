@@ -258,7 +258,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d1a0280cb32e00409e63b0f1f55e84b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objects: {fileID: 11400000, guid: 80d3d14d2466b3944a14adb481ea5c39, type: 2}
+  bodies: {fileID: 11400000, guid: 80d3d14d2466b3944a14adb481ea5c39, type: 2}
+  thrusters: {fileID: 11400000, guid: b9173817a9c43014c910a64dc7c36392, type: 2}
+  fuel: {fileID: 0}
 --- !u!4 &1428046782
 Transform:
   m_ObjectHideFlags: 0

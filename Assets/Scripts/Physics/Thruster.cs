@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
 public class Thruster : RocketMain
 {
     Rigidbody rb;
@@ -18,58 +19,59 @@ public class Thruster : RocketMain
 
     Gravity grav = new();
 
-    private void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        fireParticle = transform.GetChild(0).gameObject;
+    //private void Start()
+    //{
+    //    fireParticle = transform.GetChild(0).gameObject;
 
-        thrustAmount = ((fuel.depletionRate * fuel.massPerL) * 4) * 100;
-    }
+    //    //thrustAmount = ((fuel.depletionRate * fuel.massPerL) * 4) * 100;
 
-    void FixedUpdate()
-    {
-        if(rb.velocity.magnitude > 20)
-        {
-            fuel.depletionRate = 1;
-        }
+    //    thrustAmount = 10;
+    //}
 
-        if (Input.GetButton("Jump"))
-        {
-            if (fuel.currentFuelAmount > 0)
-            {
-                IsFlying();
-            }
-            else
-            {
-                fireParticle.SetActive(false);
-            }
-        }
-        else
-        {
-            fireParticle.SetActive(false);
-        }
+    //void FixedUpdate()
+    //{
+    //    if(rb.velocity.magnitude > 20)
+    //    {
+    //        fuel.depletionRate = 1;
+    //    }
 
-        heightText.text = "Height:" + transform.position.y.ToString();
-        velocityText.text = "Velocity:" + rb.velocity.magnitude.ToString();
-        fuelText.text = "Remaining Fuel:" + fuel.currentFuelAmount.ToString();
-    }
+    //    if (Input.GetButton("Jump"))
+    //    {
+    //        if (fuel.currentFuelAmount > 0)
+    //        {
+    //            IsFlying();
+    //        }
+    //        else
+    //        {
+    //            fireParticle.SetActive(false);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        fireParticle.SetActive(false);
+    //    }
 
-    void IsFlying()
-    {
-        //Apply a force to this Rigidbody in direction of this GameObjects up axis
-        fireParticle.SetActive(true);
-        rb.AddForce(transform.up * thrustAmount);
-        Debug.DrawLine(transform.position, transform.up, Color.green, thrustAmount);
+    //    //heightText.text = "Height:" + transform.position.y.ToString();
+    //    //velocityText.text = "Velocity:" + rb.velocity.magnitude.ToString();
+    //    //fuelText.text = "Remaining Fuel:" + fuel.currentFuelAmount.ToString();
+    //}
 
-        Vector3 input = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+    //void IsFlying()
+    //{
+    //    //Apply a force to this Rigidbody in direction of this GameObjects up axis
+    //    fireParticle.SetActive(true);
+    //    rb.AddForce(transform.up * thrustAmount);
+    //    Debug.DrawLine(transform.position, transform.up, Color.green, thrustAmount);
 
-        verticalInput = input.y * 8;
-        verticalInput = Mathf.Clamp(verticalInput, -8, 8);
+    //    Vector3 input = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
 
-        horizontalInput = input.x * -8;
-        horizontalInput = Mathf.Clamp(horizontalInput, -8, 8);
+    //    verticalInput = input.y * 8;
+    //    verticalInput = Mathf.Clamp(verticalInput, -8, 8);
+
+    //    horizontalInput = input.x * -8;
+    //    horizontalInput = Mathf.Clamp(horizontalInput, -8, 8);
 
 
-        transform.eulerAngles = new Vector3(verticalInput, 0, horizontalInput);
-    }
+    //    transform.eulerAngles = new Vector3(verticalInput, 0, horizontalInput);
+    //}
 }

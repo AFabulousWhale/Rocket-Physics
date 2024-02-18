@@ -6,6 +6,8 @@ using UnityEngine;
 public static class Spawning
 {
     public static bool spawnedObject = false;
+
+    static RocketMain rocketScript;
     public static void SpawnObject(MainRocketData partToSpawn, RocketMainSO rocketMain, RocketPart part)
     {
         if (!spawnedObject)
@@ -14,7 +16,21 @@ public static class Spawning
 
             Visual visual = newPrefab.AddComponent<Visual>();
             newPrefab.GetComponent<Renderer>().material = rocketMain.visualMat;
-            visual.part = part;
+
+            switch (part)
+            {
+                case RocketPart.Body:
+                    rocketScript = newPrefab.AddComponent<Engine>();
+                    break;
+                case RocketPart.Fuel:
+                    rocketScript = newPrefab.AddComponent<Fuel>();
+                    break;
+                case RocketPart.Thruster:
+                    rocketScript = newPrefab.AddComponent<Thruster>();
+                    break;
+            }
+
+            rocketScript.mass = partToSpawn.dryMass;
 
             spawnedObject = true;
         }

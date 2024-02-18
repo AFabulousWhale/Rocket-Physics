@@ -7,8 +7,6 @@ public class Visual : MonoBehaviour
 {
     Material defaultMat;
 
-    public RocketMain mainRocketScript;
-
     [SerializeField]
     public bool hasPlaced = false;
     public bool inRadiusOfSphere = false;
@@ -19,8 +17,6 @@ public class Visual : MonoBehaviour
     RocketMain targetRocketScript;
 
     public Transform targetTransform;
-
-    public RocketPart part;
 
     Outline outline;
     bool onMouse = false;
@@ -49,24 +45,6 @@ public class Visual : MonoBehaviour
             hasPlaced = true;
             Spawning.spawnedObject = false;
             GetComponent<Renderer>().material = defaultMat;
-
-            //if (!GetComponent<RocketMain>())
-            //{
-            //    switch (part)
-            //    {
-            //        case RocketPart.Body:
-            //            mainRocketScript = this.gameObject.AddComponent<Engine>();
-            //            break;
-            //        case RocketPart.Fuel:
-            //            break;
-            //        case RocketPart.Thruster:
-            //            break;
-            //    }
-            //}
-            //else
-            //{
-            //    mainRocketScript = GetComponent<RocketMain>();
-            //}
 
             if (!RocketData.rocketData.rocketParent) //if there is no current rocket - add a new one
             {

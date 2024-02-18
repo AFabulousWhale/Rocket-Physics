@@ -21,7 +21,7 @@ MonoBehaviour:
     test: 
   - bodyName: 
     prefab: {fileID: 1143071940661618, guid: be2642d581f74b3438801d68b029b628, type: 3}
-    dryMass: 0
+    dryMass: 10
     test: 
   - bodyName: 
     prefab: {fileID: 1117197543984394, guid: f015bb414c2fa7047880ea267a67a7aa, type: 3}
