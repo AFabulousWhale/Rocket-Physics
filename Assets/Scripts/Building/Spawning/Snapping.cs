@@ -83,6 +83,10 @@ public class Snapping : MonoBehaviour
         if(parent.transform.parent != null)
         {
             parentConnectedPart = parent.transform.parent.gameObject;
+            if (!RocketData.rocketData.rocketPartsOrder.Contains(parent))
+            {
+                RocketData.rocketData.rocketPartsOrder.Add(parent);
+            }
         }
 
         if (parentScript)

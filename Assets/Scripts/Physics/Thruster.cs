@@ -6,7 +6,6 @@ using TMPro;
 
 public class Thruster : RocketMain
 {
-    Rigidbody rb;
     public float thrustAmount;
 
     GameObject fireParticle;
@@ -18,6 +17,11 @@ public class Thruster : RocketMain
     public Fuel fuel;
 
     Gravity grav = new();
+
+    public float GetThrust()
+    {
+        return thrustAmount;
+    }
 
     //private void Start()
     //{

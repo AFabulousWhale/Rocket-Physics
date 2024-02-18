@@ -27,6 +27,7 @@ public static class Spawning
                     break;
                 case RocketPart.Thruster:
                     rocketScript = newPrefab.AddComponent<Thruster>();
+                    newPrefab.GetComponent<Thruster>().thrustAmount = 5;
                     break;
             }
 

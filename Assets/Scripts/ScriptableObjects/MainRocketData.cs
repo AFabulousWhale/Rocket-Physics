@@ -11,5 +11,5 @@ public class MainRocketData
     [SerializeField]
     public GameObject prefab;
     [SerializeField]
-    public int dryMass;
+    public float dryMass;
 }

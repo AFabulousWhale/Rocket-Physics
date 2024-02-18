@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Calculations : MonoBehaviour
 {
-    private void Start()
+    private void Update()
     {
-        Debug.Log("Total Mass: " + GetTotalMass());
-        Debug.Log("Wind Resistance: " + GetWindResistance());
-        Debug.Log("Burn Time: " + GetBurnTime());
-        Debug.Log("Gravitational Force: " + GetGravitationalForce());
-        Debug.Log("Q: " + GetQ());
-        Debug.Log("X: " + GetX());
+        //Debug.Log("Total Mass: " + GetTotalMass());
+        //Debug.Log("Wind Resistance: " + GetWindResistance());
+        //Debug.Log("Burn Time: " + GetBurnTime());
+        //Debug.Log("Gravitational Force: " + GetGravitationalForce());
+        //Debug.Log("Q: " + GetQ());
+        //Debug.Log("X: " + GetX());
 
-        Debug.Log("Velocity: " + GetVelocity());
-        Debug.Log("Boost Phase: " + GetBoostPhaseDistance());
-        Debug.Log("Coast Phase: " + GetCoastPhaseDistance());
+        //Debug.Log("Velocity: " + GetVelocity());
+        //Debug.Log("Boost Phase: " + GetBoostPhaseDistance());
+        //Debug.Log("Coast Phase: " + GetCoastPhaseDistance());
 
         Debug.Log("Altitude: " + GetTotalAltitude());
     }
@@ -30,7 +30,7 @@ public class Calculations : MonoBehaviour
         return 9.8f;
     }
 
-    float GetImpulse()
+    float GetThrust()
     {
         return 9; //set value for now
     }
@@ -40,7 +40,7 @@ public class Calculations : MonoBehaviour
         return GetImpulse() / GetThrust();
     }
 
-    float GetQ() //ppp
+    float GetQ()
     {
         return Mathf.Sqrt((GetThrust() - (GetGravitationalForce())) / GetWindResistance());
     }
@@ -55,9 +55,18 @@ public class Calculations : MonoBehaviour
         return GetQ() * (1- Mathf.Exp(-GetX() * GetBurnTime())) / (1 + Mathf.Exp(-GetX() * GetBurnTime()));
     }
 
-    float GetThrust()
+    float GetImpulse()
     {
-        return 6; //set value for now
+        float thrust = 6;
+        foreach (var item in RocketData.rocketData.rocketPartsOrder)
+        {
+            if (item.GetComponent<Thruster>())
+            {
+                thrust += item.GetComponent<Thruster>().GetThrust();
+            }
+        }
+        Debug.Log(thrust);
+        return thrust;
     }
 
     float GetWindResistance()
@@ -98,11 +107,11 @@ public class Calculations : MonoBehaviour
 
     float GetTotalMass()
     {
-        float mass = 0;
+        float mass = 0.05398f;
         foreach (var item in RocketData.rocketData.rocketPartsOrder)
         {
             mass += item.GetComponent<RocketMain>().GetMass();
         }
-        return 0.05398f; //set value for now
+        return mass;
     }
 }

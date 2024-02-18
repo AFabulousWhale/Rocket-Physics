@@ -12,4 +12,6 @@ public class ThrusterSO : RocketMainSO
 [Serializable]
 public class ThrusterData : MainRocketData
 {
+    [SerializeField]
+    public float thrustAmount;
 }
