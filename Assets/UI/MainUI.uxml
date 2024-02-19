@@ -1,13 +1,13 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/ObjectUI.uss?fileID=7433441132597879392&amp;guid=8c6a523e7ba0cab4c81d9b41582f0c6a&amp;type=3#ObjectUI" />
-    <ui:VisualElement name="ObjectSpawner" class="SpawnerBase" style="right: auto; width: 546px; display: flex;">
-        <ui:VisualElement name="MenuChooser" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 30%; height: 100%; flex-direction: column; align-items: stretch; justify-content: space-around;">
+    <ui:VisualElement name="ObjectSpawner" class="SpawnerBase" style="right: auto; width: 546px; display: flex; flex-direction: row;">
+        <ui:VisualElement name="MenuChooser" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 5px; height: 100%; flex-direction: column; align-items: stretch; justify-content: flex-start; margin-top: 15px;">
             <ui:Button text="Bodies" display-tooltip-when-elided="true" name="BodyChoose" class="ObjectButton" style="width: 150px; height: 150px;" />
             <ui:Button text="Fuel&#10;Tanks" display-tooltip-when-elided="true" name="FuelTankChoose" class="ObjectButton" style="width: 150px; height: 150px;" />
             <ui:Button text="Thrusters" display-tooltip-when-elided="true" name="ThrusterChoose" class="ObjectButton" style="width: 150px; height: 150px; font-size: 28px;" />
         </ui:VisualElement>
-        <ui:VisualElement name="Bodies" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); display: flex;" />
-        <ui:VisualElement name="Thrusters" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); display: none;" />
-        <ui:VisualElement name="FuelTanks" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); display: none;" />
+        <ui:VisualElement name="Bodies" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); display: none; visibility: visible;" />
+        <ui:VisualElement name="Thrusters" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); display: none; visibility: visible;" />
+        <ui:VisualElement name="FuelTanks" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); display: none; visibility: visible;" />
     </ui:VisualElement>
 </ui:UXML>

@@ -17,5 +17,6 @@ MonoBehaviour:
   - bodyName: Fuel Tank1
     prefab: {fileID: 1223295464465720, guid: 5a2e9f97140942b47a2028f0dde56f21, type: 3}
     dryMass: 0.042
+    icon: {fileID: 21300000, guid: 7f9ff03683f0357448d8d42c0cb4a7d5, type: 3}
     fuelAmount: 50
     wetMass: 0.08
