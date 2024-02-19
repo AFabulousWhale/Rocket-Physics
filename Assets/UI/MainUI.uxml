@@ -1,24 +1,13 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/ObjectUI.uss?fileID=7433441132597879392&amp;guid=8c6a523e7ba0cab4c81d9b41582f0c6a&amp;type=3#ObjectUI" />
-    <ui:VisualElement name="ObjectSpawner" class="SpawnerBase" style="right: auto; width: 35%; display: none;">
-        <ui:VisualElement name="Row" class="RowClass" style="flex-grow: 1; height: auto;">
-            <ui:Button text="Body1" display-tooltip-when-elided="true" name="Body1" class="ObjectButton" />
-            <ui:Button text="Body2" display-tooltip-when-elided="true" name="Body2" class="ObjectButton" />
+    <ui:VisualElement name="ObjectSpawner" class="SpawnerBase" style="right: auto; width: 546px; display: flex;">
+        <ui:VisualElement name="MenuChooser" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 30%; height: 100%; flex-direction: column; align-items: stretch; justify-content: space-around;">
+            <ui:Button text="Bodies" display-tooltip-when-elided="true" name="BodyChoose" class="ObjectButton" style="width: 150px; height: 150px;" />
+            <ui:Button text="Fuel&#10;Tanks" display-tooltip-when-elided="true" name="FuelTankChoose" class="ObjectButton" style="width: 150px; height: 150px;" />
+            <ui:Button text="Thrusters" display-tooltip-when-elided="true" name="ThrusterChoose" class="ObjectButton" style="width: 150px; height: 150px; font-size: 28px;" />
         </ui:VisualElement>
-        <ui:VisualElement name="Row" class="RowClass" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; height: auto;">
-            <ui:Button text="Body3" display-tooltip-when-elided="true" name="Body3" class="ObjectButton" />
-            <ui:Button text="Body4" display-tooltip-when-elided="true" name="Body4" class="ObjectButton" />
-        </ui:VisualElement>
-        <ui:VisualElement name="Row" class="RowClass" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; height: auto;">
-            <ui:Button text="Button" display-tooltip-when-elided="true" name="Button" class="ObjectButton" />
-            <ui:Button text="Button" display-tooltip-when-elided="true" name="Button" class="ObjectButton" />
-        </ui:VisualElement>
-        <ui:VisualElement name="Row" class="RowClass" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; height: auto;">
-            <ui:Button text="Button" display-tooltip-when-elided="true" name="Button" class="ObjectButton" />
-            <ui:Button text="Button" display-tooltip-when-elided="true" name="Button" class="ObjectButton" />
-        </ui:VisualElement>
-    </ui:VisualElement>
-    <ui:VisualElement name="Stats" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
-        <ui:Label tabindex="-1" text="Height: " display-tooltip-when-elided="true" name="Height" class="text" />
+        <ui:VisualElement name="Bodies" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); display: flex;" />
+        <ui:VisualElement name="Thrusters" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); display: none;" />
+        <ui:VisualElement name="FuelTanks" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); display: none;" />
     </ui:VisualElement>
 </ui:UXML>

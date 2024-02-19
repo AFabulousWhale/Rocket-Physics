@@ -12,7 +12,4 @@ public class BodySO : RocketMainSO
 [Serializable]
 public class BodyData : MainRocketData
 {
-    //more specific stuff to do with body
-    [SerializeField]
-    public string test;
 }

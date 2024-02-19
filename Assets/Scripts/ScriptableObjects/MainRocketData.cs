@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class MainRocketData
@@ -12,4 +13,6 @@ public class MainRocketData
     public GameObject prefab;
     [SerializeField]
     public float dryMass;
+    [SerializeField]
+    public Sprite icon;
 }
