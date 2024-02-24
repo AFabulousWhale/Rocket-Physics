@@ -13,7 +13,7 @@ public class FuelFunctionality : MonoBehaviour
     public float wetMass;
 
     [SerializeField]
-    float dryMass;
+    public float dryMass;
 
     float startWetMass;
 
@@ -21,9 +21,9 @@ public class FuelFunctionality : MonoBehaviour
 
     private void Start()
     {
-        wetMass = currentFuelAmount * massPerL;
+        //wetMass = currentFuelAmount * massPerL;
         rb = GetComponent<Rigidbody>();
-        rb.mass += (wetMass + dryMass);
+        //rb.mass += (wetMass + dryMass);
 
         startingFuel = currentFuelAmount;
         startWetMass = wetMass;

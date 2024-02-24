@@ -10,11 +10,6 @@ public class Fuel : RocketMain
     public override void SetMass()
     {
         mass += wetMass;
-        rb.mass = mass * 100;
-    }
-
-    public float GetFuel()
-    {
-        return fuelAmount;
+        rb.mass = mass;
     }
 }

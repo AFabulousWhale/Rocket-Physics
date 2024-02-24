@@ -36,10 +36,10 @@ public class Calculations : MonoBehaviour
         return 9.8f;
     }
 
-    float GetThrust()
+    public float GetThrust()
     {
         float thrust = 0;
-        foreach (var item in RocketData.rocketData.rocketPartsOrder)
+        foreach (var item in RocketData.rocketData.rocketParts)
         {
             if (item.GetComponent<Thruster>())
             {
@@ -49,7 +49,7 @@ public class Calculations : MonoBehaviour
         return thrust;
     }
 
-    float GetBurnTime()
+    public float GetBurnTime()
     {
         return GetFuel() / GetThrust();
     }
@@ -72,11 +72,16 @@ public class Calculations : MonoBehaviour
     public float GetFuel()
     {
         float fuel = 0;
-        foreach (var item in RocketData.rocketData.rocketPartsOrder)
+        foreach (var item in RocketData.rocketData.rocketParts)
         {
-            if (item.GetComponent<Fuel>())
+            if (item.GetComponent<FuelFunctionality>())
             {
-                fuel += item.GetComponent<Fuel>().GetFuel();
+                fuel += item.GetComponent<FuelFunctionality>().currentFuelAmount;
+            }
+            
+            if (item.GetComponent<Fuel>() && !item.GetComponent<FuelFunctionality>())
+            {
+                fuel += item.GetComponent<Fuel>().fuelAmount;
             }
         }
         return fuel;
@@ -127,7 +132,7 @@ public class Calculations : MonoBehaviour
     public float GetTotalMass()
     {
         float mass = 0.05398f;
-        foreach (var item in RocketData.rocketData.rocketPartsOrder)
+        foreach (var item in RocketData.rocketData.rocketParts)
         {
             mass += item.GetComponent<RocketMain>().GetMass();
         }

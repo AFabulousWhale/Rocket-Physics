@@ -9,13 +9,12 @@ public class RocketMain : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;
         SetMass();
     }
 
     public virtual void SetMass()
     {
-        rb.mass = mass * 100;
+        rb.mass = mass;
     }
 
     public float GetMass()

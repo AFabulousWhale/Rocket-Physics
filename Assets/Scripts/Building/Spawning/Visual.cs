@@ -21,6 +21,8 @@ public class Visual : MonoBehaviour
     Outline outline;
     bool onMouse = false;
 
+    public Rigidbody rb;
+
     void Awake()
     {
         //defaultMat = GetComponent<Renderer>().material;
@@ -30,6 +32,8 @@ public class Visual : MonoBehaviour
 
         topSnap = topSphere.GetComponent<Snapping>();
         bottomSnap = bottomSphere.GetComponent<Snapping>();
+
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -37,7 +41,7 @@ public class Visual : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && !hasPlaced)
         {
             Spawning.spawnedObject = false;
-            RocketData.rocketData.rocketPartsOrder.Remove(gameObject);
+            RocketData.rocketData.rocketParts.Remove(gameObject);
             Destroy(this.gameObject);
         }
 
@@ -54,7 +58,7 @@ public class Visual : MonoBehaviour
                 RocketData.rocketData.rocketParent = rParent;
                 RocketData.rocketData.rocketPartParent = this.gameObject;
                 this.transform.parent = rParent.transform;
-                RocketData.rocketData.rocketPartsOrder.Add(this.gameObject);
+                RocketData.rocketData.rocketParts.Add(this.gameObject);
             }
         }
 

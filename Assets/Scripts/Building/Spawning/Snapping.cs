@@ -31,6 +31,8 @@ public class Snapping : MonoBehaviour
     [SerializeField]
     Collider[] colliders;
 
+    FixedJoint joint;
+
     private void Start()
     {
         parentScript = transform.parent.GetComponent<Visual>();
@@ -83,10 +85,9 @@ public class Snapping : MonoBehaviour
         if(parent.transform.parent != null)
         {
             parentConnectedPart = parent.transform.parent.gameObject;
-            if (!RocketData.rocketData.rocketPartsOrder.Contains(parent))
+            if (!RocketData.rocketData.rocketParts.Contains(parent))
             {
-                RocketData.rocketData.rocketPartsOrder.Add(parent);
-                MainUI.UIRef.UpdateUI();
+                RocketData.rocketData.rocketParts.Add(parent);
             }
         }
 
@@ -104,11 +105,23 @@ public class Snapping : MonoBehaviour
                     targetScript.detectedTransform = null;
                     detectedTransform = null;
 
-                    if(parentScript.targetTransform == null)
+                    if (!parent.GetComponent<FixedJoint>())
+                    {
+                        joint = parent.gameObject.AddComponent<FixedJoint>(); //adds fixed joint
+                    }
+
+                    if (parentScript.targetTransform == null)
                     {
                         parentScript.targetTransform = connectedTransform.parent;
 
                         transform.parent.parent = parentScript.targetTransform;
+
+                        MainUI.UIRef.UpdateUI();
+
+                        if (joint)
+                        {
+                            joint.connectedBody = transform.parent.parent.GetComponent<Rigidbody>(); //fixed joint is connected to parent RB
+                        }
                     }
 
                     targetParentScript = null;

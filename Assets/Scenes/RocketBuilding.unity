@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584800c91a0e53c4a87454aea8c27dde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rocketPartsOrder: []
+  rocketParts: []
   rocketParent: {fileID: 0}
   rocketPartParent: {fileID: 0}
 --- !u!114 &1428046784
