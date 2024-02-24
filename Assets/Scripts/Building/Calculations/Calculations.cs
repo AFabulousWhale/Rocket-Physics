@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Calculations : MonoBehaviour
 {
+    public static Calculations calcScriptRef;
+
+    Calculations()
+    {
+        calcScriptRef = this;
+    }
     private void Update()
     {
         //Debug.Log("Total Mass: " + GetTotalMass());
@@ -58,12 +64,12 @@ public class Calculations : MonoBehaviour
         return (2 * GetWindResistance() * GetQ()) / GetTotalMass();
     }
 
-    float GetVelocity()
+    public float GetVelocity()
     {
         return GetQ() * (1- Mathf.Exp(-GetX() * GetBurnTime())) / (1 + Mathf.Exp(-GetX() * GetBurnTime()));
     }
 
-    float GetFuel()
+    public float GetFuel()
     {
         float fuel = 0;
         foreach (var item in RocketData.rocketData.rocketPartsOrder)
@@ -96,7 +102,7 @@ public class Calculations : MonoBehaviour
         return 1.2f;
     }
 
-    float GetTotalAltitude()
+    public float GetTotalAltitude()
     {
         if((GetBoostPhaseDistance() * 3.3f) + (GetCoastPhaseDistance() * 3.3f) <= 0)
         {
@@ -118,7 +124,7 @@ public class Calculations : MonoBehaviour
     }
 
 
-    float GetTotalMass()
+    public float GetTotalMass()
     {
         float mass = 0.05398f;
         foreach (var item in RocketData.rocketData.rocketPartsOrder)

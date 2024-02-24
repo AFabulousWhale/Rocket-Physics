@@ -86,6 +86,7 @@ public class Snapping : MonoBehaviour
             if (!RocketData.rocketData.rocketPartsOrder.Contains(parent))
             {
                 RocketData.rocketData.rocketPartsOrder.Add(parent);
+                MainUI.UIRef.UpdateUI();
             }
         }
 

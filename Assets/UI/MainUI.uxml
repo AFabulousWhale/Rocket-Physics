@@ -10,4 +10,10 @@
         <ui:VisualElement name="Thrusters" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); display: none; visibility: visible;" />
         <ui:VisualElement name="FuelTanks" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); display: none; visibility: visible;" />
     </ui:VisualElement>
+    <ui:VisualElement name="StatsDisplay" style="flex-grow: 1; background-color: rgb(132, 132, 132); width: 500px; left: 75%; position: absolute; height: 250px; top: 0; color: rgb(84, 84, 84); border-top-left-radius: 0; border-bottom-left-radius: 69px;">
+        <ui:Label tabindex="-1" text="Predicted Altitude: 0" display-tooltip-when-elided="true" name="PredictedHeight" style="-unity-font-style: bold; color: rgb(0, 0, 0); font-size: 29px; -unity-text-align: upper-left;" />
+        <ui:Label tabindex="-1" text="Predicted Velocity: 0" display-tooltip-when-elided="true" name="PredictedVelocity" style="-unity-font-style: bold; color: rgb(0, 0, 0); font-size: 29px; -unity-text-align: upper-left;" />
+        <ui:Label tabindex="-1" text="Total Mass: 0" display-tooltip-when-elided="true" name="TotalMass" enable-rich-text="true" style="-unity-font-style: bold; color: rgb(0, 0, 0); font-size: 29px; -unity-text-align: upper-left;" />
+        <ui:Label tabindex="-1" text="Total Fuel: 0" display-tooltip-when-elided="true" name="TotalFuel" style="-unity-font-style: bold; color: rgb(0, 0, 0); font-size: 29px; -unity-text-align: upper-left;" />
+    </ui:VisualElement>
 </ui:UXML>

@@ -227,10 +227,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapTag: BuildingPart
-  targetTransform: {fileID: 0}
-  targetRocketScript: {fileID: 0}
-  thisRocketScript: {fileID: 0}
+  detectedTransform: {fileID: 0}
+  connectedTransform: {fileID: 0}
   parentScript: {fileID: 0}
+  targetParentScript: {fileID: 0}
+  targetScript: {fileID: 0}
+  childrenConnectedParts: []
+  parentConnectedPart: {fileID: 0}
+  canSnap: 1
   colliders: []
 --- !u!1 &3152707417831891559
 GameObject:
@@ -351,8 +355,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   snapTag: BuildingPart
-  targetTransform: {fileID: 0}
-  targetRocketScript: {fileID: 0}
-  thisRocketScript: {fileID: 0}
+  detectedTransform: {fileID: 0}
+  connectedTransform: {fileID: 0}
   parentScript: {fileID: 0}
+  targetParentScript: {fileID: 0}
+  targetScript: {fileID: 0}
+  childrenConnectedParts: []
+  parentConnectedPart: {fileID: 0}
+  canSnap: 1
   colliders: []

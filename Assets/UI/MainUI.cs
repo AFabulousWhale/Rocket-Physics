@@ -22,6 +22,15 @@ public class MainUI : MonoBehaviour
     const string buttonStyle = "ObjectButton";
     const string rowStyle = "RowClass";
 
+    public static MainUI UIRef;
+
+    Label predictedAltitiude, predictedVelocity, totalMass, totalFuel;
+
+    MainUI()
+    {
+        UIRef = this;
+    }
+
     public void Start()
     {
         root = m_UIDocument.rootVisualElement; //setting the root element to be the main UI root
@@ -41,6 +50,11 @@ public class MainUI : MonoBehaviour
         body.RegisterCallback<ClickEvent, VisualElement>(HideShowMenu, bodyVE);
         fuel.RegisterCallback<ClickEvent, VisualElement>(HideShowMenu, fuelVE);
         thruster.RegisterCallback<ClickEvent, VisualElement>(HideShowMenu, thrusterVE);
+
+        predictedAltitiude = root.Q<Label>("PredictedHeight");
+        predictedVelocity = root.Q<Label>("PredictedVelocity");
+        totalMass = root.Q<Label>("TotalMass");
+        totalFuel = root.Q<Label>("TotalFuel");
 
         for (int i = 0; i < fuelTanks.fuelList.Count; i++)
         {
@@ -126,5 +140,13 @@ public class MainUI : MonoBehaviour
     void SpawnThruster(ClickEvent evt, int index)
     {
         Spawning.SpawnThruster(thrusters.thrusterList[index], thrusters);
+    }
+
+    public void UpdateUI()
+    {
+        predictedAltitiude.text = $"Predicted Altitude: {Calculations.calcScriptRef.GetTotalAltitude()}m";
+        predictedVelocity.text = $"Predicted Velocity: {Calculations.calcScriptRef.GetVelocity()}";
+        totalMass.text = $"Total Mass: {Calculations.calcScriptRef.GetTotalMass()}g";
+        totalFuel.text = $"Total Fuel: {Calculations.calcScriptRef.GetFuel()}l";
     }
 }
