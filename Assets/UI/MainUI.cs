@@ -14,7 +14,7 @@ public class MainUI : MonoBehaviour
     private UIDocument m_UIDocument;
 
     VisualElement bodyVE, thrusterVE, fuelVE, row, root;
-    Button body, thruster, fuel;
+    Button body, thruster, fuel, launch;
 
     List<VisualElement> menus = new();
 
@@ -26,6 +26,8 @@ public class MainUI : MonoBehaviour
 
     Label predictedAltitiude, predictedVelocity, totalMass, totalFuel;
 
+    string localPath;
+
     MainUI()
     {
         UIRef = this;
@@ -33,6 +35,7 @@ public class MainUI : MonoBehaviour
 
     public void Start()
     {
+        localPath = "Assets/Prefabs/" + "Rocket" + ".prefab";
         root = m_UIDocument.rootVisualElement; //setting the root element to be the main UI root
 
         bodyVE = root.Q<VisualElement>("Bodies");
@@ -55,6 +58,9 @@ public class MainUI : MonoBehaviour
         predictedVelocity = root.Q<Label>("PredictedVelocity");
         totalMass = root.Q<Label>("TotalMass");
         totalFuel = root.Q<Label>("TotalFuel");
+
+        launch = root.Q<Button>("LaunchButton");
+        launch.RegisterCallback<ClickEvent>(LaunchRocket);
 
         for (int i = 0; i < fuelTanks.fuelList.Count; i++)
         {
@@ -148,5 +154,14 @@ public class MainUI : MonoBehaviour
         predictedVelocity.text = $"Predicted Velocity: {Calculations.calcScriptRef.GetVelocity()}";
         totalMass.text = $"Total Mass: {Calculations.calcScriptRef.GetTotalMass()}g";
         totalFuel.text = $"Total Fuel: {Calculations.calcScriptRef.GetFuel()}l";
+    }
+
+    void LaunchRocket(ClickEvent evt)
+    {
+        bool prefabSuccess;
+        GameObject prefab = PrefabUtility.SaveAsPrefabAsset(RocketData.rocketData.rocketParent, localPath, out prefabSuccess);
+
+        PrefabUtility.SavePrefabAsset(prefab);
+        //UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
     }
 }

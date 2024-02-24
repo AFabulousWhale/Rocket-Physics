@@ -16,4 +16,5 @@
         <ui:Label tabindex="-1" text="Total Mass: 0" display-tooltip-when-elided="true" name="TotalMass" enable-rich-text="true" style="-unity-font-style: bold; color: rgb(0, 0, 0); font-size: 29px; -unity-text-align: upper-left;" />
         <ui:Label tabindex="-1" text="Total Fuel: 0" display-tooltip-when-elided="true" name="TotalFuel" style="-unity-font-style: bold; color: rgb(0, 0, 0); font-size: 29px; -unity-text-align: upper-left;" />
     </ui:VisualElement>
+    <ui:Button text="Launch" display-tooltip-when-elided="true" name="LaunchButton" class="ObjectButton" style="position: absolute; top: 0; left: 980px; width: 100px; height: 100px; font-size: 23px; -unity-text-align: middle-center;" />
 </ui:UXML>

@@ -4,7 +4,12 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - visualMat: {fileID: 2100000, guid: a0b0007a1ae5d844dafe4bba6d07e310, type: 2}
+  - defaultMat: {fileID: 2100000, guid: 4cee7a5983b187943adc589b9cb1f084, type: 2}
+  - topSphere: {instanceID: 0}
+  - bottomSphere: {instanceID: 0}
+  - bottomSnap: {instanceID: 0}
+  - topSnap: {instanceID: 0}
+  - targetTransform: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

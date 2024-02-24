@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Visual : MonoBehaviour
 {
-    Material defaultMat;
+    public Material defaultMat;
 
     [SerializeField]
     public bool hasPlaced = false;
@@ -23,7 +23,7 @@ public class Visual : MonoBehaviour
 
     void Awake()
     {
-        defaultMat = GetComponent<Renderer>().material;
+        //defaultMat = GetComponent<Renderer>().material;
 
         topSphere = transform.GetChild(0).gameObject;
         bottomSphere = transform.GetChild(1).gameObject;
@@ -45,7 +45,7 @@ public class Visual : MonoBehaviour
         {
             hasPlaced = true;
             Spawning.spawnedObject = false;
-            GetComponent<Renderer>().material = defaultMat;
+            //GetComponent<Renderer>().material = defaultMat;
 
             if (!RocketData.rocketData.rocketParent) //if there is no current rocket - add a new one
             {

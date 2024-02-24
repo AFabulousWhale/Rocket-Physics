@@ -39,7 +39,7 @@ public static class Spawning
             newPrefab = (GameObject)PrefabUtility.InstantiatePrefab(partToSpawn.prefab);
 
             Visual visual = newPrefab.AddComponent<Visual>();
-            newPrefab.GetComponent<Renderer>().material = rocketMain.visualMat;
+            //newPrefab.GetComponent<Renderer>().material = rocketMain.visualMat;
             spawnedObject = true;
         }
         return newPrefab;
