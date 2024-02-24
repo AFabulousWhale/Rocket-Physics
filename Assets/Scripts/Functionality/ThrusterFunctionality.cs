@@ -9,7 +9,6 @@ public class ThrusterFunctionality : MonoBehaviour
     public float thrustAmount;
 
     GameObject fireParticle;
-    public TextMeshProUGUI heightText, velocityText, fuelText;
 
     public float verticalInput;
     public float horizontalInput;
@@ -23,7 +22,7 @@ public class ThrusterFunctionality : MonoBehaviour
 
         thrustAmount = ((fuel.depletionRate * fuel.massPerL) * 4) * 100;
 
-        thrustAmount = 10;
+        thrustAmount = 1000;
     }
 
     void FixedUpdate()
@@ -48,10 +47,6 @@ public class ThrusterFunctionality : MonoBehaviour
         {
             fireParticle.SetActive(false);
         }
-
-        heightText.text = "Height:" + transform.position.y.ToString();
-        velocityText.text = "Velocity:" + rb.velocity.magnitude.ToString();
-        fuelText.text = "Remaining Fuel:" + fuel.currentFuelAmount.ToString();
     }
 
     void IsFlying()

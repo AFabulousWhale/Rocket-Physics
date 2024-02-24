@@ -159,9 +159,11 @@ public class MainUI : MonoBehaviour
     void LaunchRocket(ClickEvent evt)
     {
         bool prefabSuccess;
-        GameObject prefab = PrefabUtility.SaveAsPrefabAsset(RocketData.rocketData.rocketParent, localPath, out prefabSuccess);
+        PrefabUtility.SaveAsPrefabAsset(RocketData.rocketData.rocketParent, localPath, out prefabSuccess);
 
-        PrefabUtility.SavePrefabAsset(prefab);
-        //UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
+        if (prefabSuccess)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
+        }
     }
 }
