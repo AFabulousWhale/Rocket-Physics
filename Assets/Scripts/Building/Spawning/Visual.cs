@@ -87,6 +87,11 @@ public class Visual : MonoBehaviour
                     outline.OutlineWidth = 10f;
                 }
 
+                if(Input.GetKeyDown(KeyCode.I))
+                {
+                    //MainUI.UIRef.TypeDisplayMain(gameObject, gameObject.name);
+                }
+
                 if (Input.GetMouseButtonDown(1))
                 {
                     hasPlaced = false;

@@ -116,7 +116,7 @@ public class Snapping : MonoBehaviour
 
                         transform.parent.parent = parentScript.targetTransform;
 
-                        MainUI.UIRef.UpdateUI();
+                        //MainUI.UIRef.UpdateUI();
 
                         if (joint)
                         {
